@@ -113,14 +113,3 @@ function saveImgsToStorage() {
     saveToStorage(STORAGE_KEY, gImgs)
 
 }
-        // function switchLines() {
-        //     console.log('Len:', gMeme.lines.length)
-        //     if (gMeme.selectedLineIdx === gMeme.lines.length - 1) {
-        //         gMeme.selectedLineIdx = 0;
-        //         console.log('ine 26', gMeme.selectedLineIdx)
-        //     }
-        //     else {
-        //         gMeme.selectedLineIdx += 1;
-        //         console.log('line 30', gMeme.selectedLineIdx)
-        //     }
-        // }

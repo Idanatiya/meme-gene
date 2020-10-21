@@ -114,6 +114,7 @@ function drawLines() {
 
 function drawText(txt, size, x, y) {
     console.log(y)
+    gCtx.lineWidth = 2;
     gCtx.font = `${size}px Impact`;
     gCtx.textAlign = 'start'
     gCtx.fillText(txt, x, y)
@@ -132,25 +133,7 @@ function loadImgToCanvas(imgUrl) {
     }
 }
 
-// function drawText(txt, size, x, y) {
-//     console.log('drawing txt:', txt);
-//     gCtx.font = '48px Impact'
-//     gCtx.textAlign = 'start'
-//     gCtx.fillText(txt, x, y)
-//     gCtx.strokeText(txt, x, y)
-// }
+function toggleMenu() {
+    document.body.classList.toggle('menu-open');
+}
 
-
-
-
-//render canvas uppon txt change
-// function renderCanvas(txt) {
-//     const meme = getCurrMeme();
-//     const imgInfo = getImgById(meme.selectedImgId)
-//     const img = new Image();
-//     img.src = `${imgInfo.url}`;
-//     img.onload = () => {
-//         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
-//         drawText(txt, 30, 40)
-//     }
-// }
