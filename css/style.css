@@ -1,0 +1,173 @@
+@font-face {
+    font-family: Rubik;
+    src: url(../fonts/Rubik-Black.ttf);
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+html {
+    font-size: 18px;
+    font-family: Rubik, sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+
+
+button {
+    cursor: pointer;
+}
+
+
+a {
+    text-decoration: none;
+}
+
+
+
+/*Layout*/
+.main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.main-header h3 {
+    display: inline-block;
+    font-family: Rubik, serif;
+}
+
+.nav-links,
+.social-links {
+    display: flex;
+}
+
+.nav-links li,
+.social-links li {
+    margin: 2rem;
+}
+
+/*Gallery-img style*/
+.grid-container {
+    display: grid;
+    /*check property*/
+    grid-template-columns: repeat(auto-fit, minmax(278px, 1fr));
+    grid-gap: 20px;
+    margin: 20px;
+}
+
+
+.card {
+    height: 278px;
+}
+
+.card-img {
+    object-fit: cover;
+    width: 278px;
+}
+
+
+.info-container {
+    height: 567px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-info {
+    margin-inline-start: 46px;
+}
+
+
+.main-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    /* height: 70px; */
+    /* position: fixed;
+    bottom: 0; */
+    width: 100%;
+}
+
+
+
+
+
+/*componenets*/
+.main-header {
+    background-color: #fafafa;
+}
+
+.info-container {
+    background-color: #fafafa;
+}
+
+.info-img {
+    border-radius: 50%;
+    width: 322px;
+    height: 322px;
+    object-fit: cover;
+    transition: .3s ease;
+    cursor: pointer;
+}
+
+.info-img:hover {
+    transform: scale(1.1);
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+}
+
+.main-header ul li {
+    font-size: 1.2rem;
+}
+
+.main-footer {
+    background-color: #222;
+    color: white;
+}
+
+.social-links li a {
+    color: white;
+}
+
+.card-img {
+    cursor: pointer;
+    transition: .3s ease;
+
+}
+
+.card-img:hover {
+    transform: scale(1.1);
+}
+
+
+
+.fa-bars {
+    color: black;
+    background: transparent;
+}
+
+.btn {
+    background: transparent;
+    outline: 0;
+    border: 0;
+}
+
+
+
+
+/*Helpers*/
+.clean-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
