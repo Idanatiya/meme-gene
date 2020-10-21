@@ -53,6 +53,13 @@ a {
     margin: 2rem;
 }
 
+.controls-section {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
 /*Gallery-img style*/
 .grid-container {
     display: grid;
@@ -62,7 +69,6 @@ a {
     margin: 20px;
 }
 
-
 .card {
     height: 278px;
 }
@@ -70,6 +76,45 @@ a {
 .card-img {
     object-fit: cover;
     width: 278px;
+}
+
+/*MEME EDITOR*/
+
+.meme-editor-container {
+    height: 800px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.meme-controls {
+    width: 350px;
+    height: 350px;
+    margin-inline-start: 1.25rem
+}
+
+.meme-controls>* {
+    padding: 10px;
+}
+
+/* .meme-controls button {
+    margin: 4px;
+} */
+
+.meme-controls button {
+    background: transparent;
+    border: 0;
+    outline: 0;
+}
+
+canvas {
+    border: 2px solid black;
+}
+
+.add-txt {
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
 }
 
 
@@ -86,12 +131,10 @@ a {
 
 
 .main-footer {
+    height: 150px;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    /* height: 70px; */
-    /* position: fixed;
-    bottom: 0; */
     width: 100%;
 }
 
@@ -142,11 +185,13 @@ a {
 .card-img {
     cursor: pointer;
     transition: .3s ease;
+    border-radius: 10px;
 
 }
 
 .card-img:hover {
-    transform: scale(1.1);
+    transform: rotateZ(3deg) scale(1.1);
+
 }
 
 
@@ -163,11 +208,44 @@ a {
 }
 
 
-
-
 /*Helpers*/
 .clean-list {
     list-style-type: none;
     margin: 0;
     padding: 0;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: flex;
+}
+
+
+
+@media (max-width: 540px) {
+
+    .info-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .info-img {
+        width: 156px;
+        height: 158px;
+    }
+
+    .main-footer {
+        flex-direction: column;
+    }
+
+    .meme-editor-container {
+        flex-direction: column;
+        margin-block-start: 10px;
+
+    }
+
+
 }

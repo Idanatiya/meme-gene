@@ -13,38 +13,76 @@
 <body onload="onInit()">
     <header class="main-header">
         <div class="brand-logo">
-            <img src="imgs/001.png" class="logo" alt="">
+            <!-- <img src="imgs/001.png" class="logo" alt=""> -->
             <h3>Meme Generator</h3>
         </div>
 
         <ul class="nav-links clean-list">
-            <li><a href="">Link 1</a></li>
-            <li><a href="">Link 2</a></li>
-            <li><a href="">Link 3</a></li>
+            <li><a href="">Gallery</a></li>
+            <li><a href="">Memes</a></li>
+            <li><a href="">About</a></li>
         </ul>
-        <!-- <button class="btn" onclick="toggleMenu()"><i class="fas fa-bars fa-2x"></i></button> -->
+        <button class="btn" onclick="toggleMenu()"><i class="fas fa-bars fa-2x"></i></button>
     </header>
-    <div class="main-content">
-        <div class="grid-container">
-            <h1>Content goes here</h1>
+    <div class="img-gallery-container">
+        <section class="controls-section">
+            <input type="text" name="filterInput" placeholder="Enter search keyword.." />
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+        </section>
+        <div class="grid-container"></div>
+        <section class="info-container">
+            <img src="imgs/004.jpg" alt="" class="info-img" />
+            <div class="text-info">
+                <h3>A Super Saiyan Programmer</h3>
+                <p>Lorem ipsum dolor sit amet.</p>
+            </div>
+        </section>
+    </div>
+
+    <div class="meme-editor-container hide">
+        <div class="canvas-container">
+            <canvas id="my-canvas" height="350" width="350"></canvas>
+        </div>
+        <div class="meme-controls">
+            <input type="text" name="add-txt" class="add-txt" onkeyup="onTxtChange(this)"
+                placeholder="Enter text here..." />
+            <div class="add-remove-change-container">
+                <button class="move-down" onclick="onManageDirection(5)">
+                    <i class="fas fa-arrow-circle-down fa-3x"></i>
+                </button>
+                <button class="move-up" onclick="onManageDirection(-5)">
+                    <i class="fas fa-arrow-circle-up fa-3x"></i>
+                </button>
+                <button class="switch-line" onclick="onSwitchLines()">
+                    <img src="imgs/switch-line.png" alt="switch-line">
+                </button>
+                <button onclick="onAddLine()">
+                    <img src="imgs/add.png" alt="add">
+                </button>
+            </div>
+            <div class="font-controls">
+                <button class="inc-font" onclick="onManageFontSize(2)">
+                    <img src="imgs/inc-font.png" />
+                </button>
+                <button class="dec-font" onclick="onManageFontSize(-2)">
+                    <img src="imgs/dec-font.png" />
+                </button>
+            </div>
         </div>
     </div>
 
-    <section class="info-container">
-        <img src="imgs/004.jpg" alt="" class="info-img" />
-        <div class="text-info">
-            <h3>Some Text...</h3>
-            <p>Lorem ipsum dolor sit amet.</p>
-        </div>
-    </section>
 
     <footer class="main-footer">
-        <small>Sprint 2# - Meme Gen</small>
+        <h3>Meme Gen</h3>
+        <small>All Rights Reserved</small>
+        <!-- <small>Sprint 2# - Meme Gen</small>
         <ul class="social-links clean-list">
             <li><a href="">Link 1</a></li>
             <li><a href="">Link 2</a></li>
             <li><a href="">Link 3</a></li>
-        </ul>
+        </ul> -->
     </footer>
     <script src="js/services/util-service.js"></script>
     <script src="js/services/storage-service.js"></script>
