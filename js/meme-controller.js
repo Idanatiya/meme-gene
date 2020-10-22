@@ -48,6 +48,7 @@ function onFilterByClick(elKeyword) {
     setSearchTerm(keyword);
     //get fontSize for the specific li that has been clicked
     const currFontSize = getFontSize(keyword);
+    if (currFontSize > 75) return;
 
     //set the fontsize for the specific keyword clicked
     elKeyword.style.fontSize = `${currFontSize}px`;
@@ -113,6 +114,12 @@ function onSetFontFamily(fontName) {
 
 function onChangeColor(color) {
     changeColor(color)
+    renderCanvas();
+}
+
+function onChangeOutline(color) {
+    console.log('outline:', color);
+    changeOutline(color)
     renderCanvas();
 }
 
@@ -194,11 +201,11 @@ function drawLines() {
     meme.lines.forEach((line, idx) => {
         console.log('line:', line)
         if (idx === meme.selectedLineIdx) drawRect(0, line.coords.y - 35)
-        drawText(line.txt, line.size, line.font, line.color, line.align, line.coords.x, line.coords.y)
+        drawText(line.txt, line.size, line.font, line.color, line.outline, line.align, line.coords.x, line.coords.y)
     })
 }
 
-function drawText(txt, size, fontName, color, align, x, y) {
+function drawText(txt, size, fontName, color, outlineColor, align, x, y) {
     gCtx.lineWidth = 2;
     gCtx.font = `${size}px ${fontName}`;
     //aligning
@@ -209,7 +216,7 @@ function drawText(txt, size, fontName, color, align, x, y) {
     //position the text
     gCtx.fillText(txt, x, y)
     //border color
-    gCtx.strokeStyle = 'black'
+    gCtx.strokeStyle = outlineColor;
     gCtx.stroke();
     gCtx.strokeText(txt, x, y)
 }
@@ -291,10 +298,8 @@ function onDragLine(ev) {
     // console.log(rect);
     var x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
     var y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
-
     dragLine(x, y)
     renderCanvas();
-
 }
 
 function onStopDrag(ev) {

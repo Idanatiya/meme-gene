@@ -64,6 +64,11 @@ a {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.keyword-list li:hover {
+    transform: rotateZ(10deg) scale(1.2);
 }
 
 .filter-section {
@@ -102,6 +107,7 @@ a {
     margin-inline-end: 20px;
     justify-items: center;
     align-items: center;
+    flex: 1;
 }
 
 
@@ -128,7 +134,8 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 290px;
+    flex: 1;
+    background-color: #e3e3e3;
     /* margin-bottom: 290px; */
 }
 
@@ -169,10 +176,25 @@ a {
     position: relative;
 }
 
+select[name="font-family-select"] {
+    width: 150px;
+    border-radius: 10px;
+    outline: 0;
+    border: 0;
+}
+
 .font-list-color-container .choose-color {
     cursor: pointer;
     position: absolute;
     top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+.font-list-color-container .choose-outline {
+    cursor: pointer;
+    position: absolute;
+    top: 17px;
     left: 0;
     opacity: 0;
 }
@@ -193,7 +215,7 @@ a {
 
 /*footer*/
 .main-footer {
-    height: 150px;
+    height: 207px;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -213,7 +235,9 @@ canvas {
 }
 
 .main-header {
-    background-color: #fafafa;
+    /* background-color: #fafafa; */
+    background-color: #0b132b;
+    color: white;
 }
 
 .toggle-btn {
@@ -233,6 +257,10 @@ canvas {
 .fa-trash-alt {
     color: red;
     font-size: 35px;
+}
+
+.fa-bars {
+    color: white;
 }
 
 .delete-container {
@@ -280,10 +308,22 @@ canvas {
 
 .main-header ul li {
     font-size: 1.2rem;
+    transition: transform 0.3s ease;
 }
 
+.nav-links li a {
+    color: white;
+}
+
+.nav-links li:hover {
+    transform: scale(1.2);
+    text-decoration: underline;
+}
+
+
+
 .main-footer {
-    background-color: #222;
+    background-color: #0b132b;
     color: white;
 }
 
@@ -327,10 +367,7 @@ canvas {
 
 
 
-.fa-bars {
-    color: black;
-    background: transparent;
-}
+
 
 .btn {
     background: transparent;
@@ -386,7 +423,6 @@ canvas {
     }
 
     .nav-links li {
-
         text-align: center;
         border-bottom: 1px solid black;
         width: 100%;
@@ -401,6 +437,7 @@ canvas {
         height: 100%;
         justify-content: center;
         align-items: center;
+        color: black;
     }
 
     .grid-container {
@@ -415,11 +452,10 @@ canvas {
 
     }
 
-
-
     .toggle-btn {
         display: flex;
         z-index: 2;
+        color: white;
     }
 
     body.menu-open .main-header .nav-links {
@@ -456,6 +492,7 @@ canvas {
 
     .main-footer {
         flex-direction: column;
+        height: 207px;
     }
 
 
@@ -479,6 +516,10 @@ canvas {
     .font-controls {
         display: flex;
         justify-content: center;
+    }
+
+    .meme-grid-container {
+        margin-inline-start: 0;
     }
 
     .meme-grid-container h1 {

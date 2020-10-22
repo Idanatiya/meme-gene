@@ -58,6 +58,9 @@ function deleteLine() {
 function changeColor(color) {
     gMeme.lines[gMeme.selectedLineIdx].color = color;
 }
+function changeOutline(color) {
+    gMeme.lines[gMeme.selectedLineIdx].outline = color;
+}
 
 function setFontFamily(fontName) {
     console.log('getting from controller!', fontName)
@@ -149,7 +152,8 @@ function _createLine(x, y) {
         coords: { x, y },
         align: 'center',
         color: 'white',
-        font: 'Impact'
+        font: 'Impact',
+        outline: 'black'
     }
 }
 
