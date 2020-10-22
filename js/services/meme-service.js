@@ -19,6 +19,9 @@ function init() {
 }
 
 
+function startDrag() {
+
+}
 
 function dragLine(x, y) {
     gMeme.lines[gMeme.selectedLineIdx].coords.x = x;

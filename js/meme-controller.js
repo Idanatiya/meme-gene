@@ -137,10 +137,6 @@ function onSwitchLines() {
     console.log('rect', rect);
     switchLines();
     const meme = getCurrMeme();
-    const coordX = meme.lines[meme.selectedLineIdx].coords.x - 190
-    console.log('coordX:', coordX);
-    const coordY = meme.lines[meme.selectedLineIdx].coords.y - 35
-    console.log('coordY:', coordY);
     // drawRect(coordX, coordY)
     renderCanvas();
     document.querySelector('.add-txt').value = meme.lines[meme.selectedLineIdx].txt;
@@ -178,8 +174,6 @@ function onManageDirection(diff) {
 }
 
 
-
-
 //render canvas
 function renderCanvas() {
     const meme = getCurrMeme();
@@ -199,7 +193,7 @@ function drawLines() {
     //loop through each line obj in lines and draw a text into the canvas
     meme.lines.forEach((line, idx) => {
         console.log('line:', line)
-        if (idx === meme.selectedLineIdx) drawRect(line.coords.x - 190, line.coords.y - 35)
+        if (idx === meme.selectedLineIdx) drawRect(0, line.coords.y - 35)
         drawText(line.txt, line.size, line.font, line.color, line.align, line.coords.x, line.coords.y)
     })
 }
@@ -217,17 +211,16 @@ function drawText(txt, size, fontName, color, align, x, y) {
     //border color
     gCtx.strokeStyle = 'black'
     gCtx.stroke();
-
     gCtx.strokeText(txt, x, y)
 }
 
 function drawRect(x, y) {
+    const meme = getCurrMeme();
     gCtx.beginPath();
-    gCtx.rect(x, y, 370, 40);
-    gCtx.strokeStyle = 'black';
-    gCtx.stroke();
-    gCtx.fillStyle = '#fafafa';
-    gCtx.fillRect(x, y, 370, 40);
+    gCtx.rect(x, y, 370, meme.lines[meme.selectedLineIdx].size + 5);
+
+    gCtx.fillStyle = '#ffffff60'
+    gCtx.fillRect(x, y, 370, meme.lines[meme.selectedLineIdx].size + 5);
 }
 
 //Draw img on canvas
@@ -241,6 +234,7 @@ function loadImgToCanvas(imgUrl) {
 
     }
 }
+
 
 
 
@@ -269,6 +263,7 @@ function onStartDrag(ev) {
     // console.log('start the drag', ev)
     gCtx.beginPath();
     gIsDrag = true;
+    switchLines();
     console.log('dragging started:', gIsDrag);
     const { offsetX, offsetY } = ev;
     //Starting position

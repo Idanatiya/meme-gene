@@ -43,7 +43,9 @@
     <div class="meme-editor-container hide">
         <div class="canvas-container">
             <canvas id="my-canvas" height="350" width="350" onclick="onGetClickedLine(event)"
-                onmousedown="onStartDrag(event)" onmouseup="onStopDrag(event)" onmousemove="onDragLine(event)"></canvas>
+                onmousedown="onStartDrag(event)" onmouseup="onStopDrag(event)" onmousemove="onDragLine(event)"
+                ontouchstart="onStartDrag(event)" ontocuhend="onStopDrag(event)" ontouchmove="onDragLine(event)">
+            </canvas>
         </div>
         <div class=" meme-controls">
             <input type="text" name="add-txt" class="add-txt" onkeyup="onTxtChange(this)"
