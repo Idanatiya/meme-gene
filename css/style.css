@@ -67,7 +67,7 @@ a {
     display: grid;
     /*check property*/
     grid-template-columns: repeat(auto-fit, minmax(278px, 1fr));
-    grid-gap: 20px;
+    grid-gap: 28px;
     margin: 20px;
     justify-items: center;
     align-items: center;
