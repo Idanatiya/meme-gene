@@ -263,20 +263,34 @@ function onStartDrag(ev) {
     // console.log('start the drag', ev)
     gCtx.beginPath();
     gIsDrag = true;
+    if (ev.touches) {
+        ev.preventDefault();
+        var rect = document.querySelector('#my-canvas').getBoundingClientRect();
+        var x = ev.touches[0].clientX - rect.left;
+        var y = ev.touches[0].clientY - rect.top;
+        gCtx.moveTo(x, y)
+    } else {
+        const { offsetX, offsetY } = ev;
+        gCtx.moveTo(offsetX, offsetY)
+
+    }
     switchLines();
-    console.log('dragging started:', gIsDrag);
-    const { offsetX, offsetY } = ev;
+
     //Starting position
-    gCtx.moveTo(offsetX, offsetY)
 
 }
 
 function onDragLine(ev) {
     //if we are not in drag mode i dont run the func
     if (!gIsDrag) return;
+
     //get end position
-    var x = ev.offsetX;
-    var y = ev.offsetY;
+    // var x = ev.offsetX;
+    // var y = ev.offsetY;
+    var rect = document.querySelector('#my-canvas').getBoundingClientRect();
+    // console.log(rect);
+    var x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
+    var y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
 
     dragLine(x, y)
     renderCanvas();
