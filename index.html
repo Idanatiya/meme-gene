@@ -6,20 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/5e621eabb9.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="imgs/logo.png">
+    <link rel="icon" href="imgs/assets/logo.png">
     <title>Meme Generator</title>
 </head>
 
 <body onload="onInit()">
     <header class="main-header">
         <div class="brand-logo">
-            <img src="imgs/001.png" class="logo" alt="">
+            <img src="imgs/assets/001.png" class="logo" alt="">
             <h3>Meme Generator</h3>
         </div>
-
         <ul class="nav-links clean-list">
             <li><a href="">Gallery</a></li>
-            <li><a href="saved-meme.html">Memes</a></li>
+            <li onclick="onOpenMemeTab()">Memes</a></li>
             <li><a href="#">About</a></li>
         </ul>
         <button class="toggle-btn" onclick="toggleMenu()"><i class="fas fa-bars fa-2x"></i></button>
@@ -32,7 +31,7 @@
         </section>
         <div class="grid-container"></div>
         <section class="info-container">
-            <img src="imgs/004.jpg" alt="" class="info-img" />
+            <img src="imgs/assets/004.jpg" alt="" class="info-img" />
             <div class="text-info">
                 <h3>A Super Saiyan Programmer</h3>
                 <p>Lorem ipsum dolor sit amet.</p>
@@ -47,7 +46,7 @@
                 ontouchstart="onStartDrag(event)" ontocuhend="onStopDrag(event)" ontouchmove="onDragLine(event)">
             </canvas>
         </div>
-        <div class=" meme-controls">
+        <div class="meme-controls">
             <input type="text" name="add-txt" class="add-txt" onkeyup="onTxtChange(this)"
                 placeholder="Enter text here..." />
             <div class="add-remove-change-container">
@@ -58,30 +57,30 @@
                     <i class="fas fa-arrow-circle-up fa-3x"></i>
                 </button>
                 <button class="switch-line" onclick="onSwitchLines()">
-                    <img src="imgs/switch-line.png" alt="switch-line">
+                    <img src="imgs/assets/switch-line.png" alt="switch-line">
                 </button>
                 <button onclick="onAddLine()">
-                    <img src="imgs/add.png" alt="add">
+                    <img src="imgs/assets/add.png" alt="add">
                 </button>
                 <button onclick="onDeleteLine()">
-                    <img src="imgs/trash.png" alt="trash" />
+                    <img src="imgs/assets/trash.png" alt="trash" />
                 </button>
             </div>
             <div class="font-controls">
                 <button class="inc-font" onclick="onManageFontSize(2)">
-                    <img src="imgs/inc-font.png" />
+                    <img src="imgs/assets/inc-font.png" />
                 </button>
                 <button class="dec-font" onclick="onManageFontSize(-2)">
-                    <img src="imgs/dec-font.png" />
+                    <img src="imgs/assets/dec-font.png" />
                 </button>
                 <button class="left-align" onclick="onManageAlignment('right')">
-                    <img src="imgs/align-to-left.png" alt="">
+                    <img src="imgs/assets/align-to-left.png" alt="">
                 </button>
                 <button class="center-text" onclick="onManageAlignment('center')">
-                    <img src="imgs/center-text-alignment.png" alt="">
+                    <img src="imgs/assets/center-text-alignment.png" alt="">
                 </button>
                 <button class="right-align" onclick="onManageAlignment('left')">
-                    <img src="imgs/align-to-right.png" alt="">
+                    <img src="imgs/assets/align-to-right.png" alt="">
                 </button>
             </div>
             <div class="font-list-color-container">
@@ -91,15 +90,20 @@
                 </select>
 
                 <label for="choose-outline">
-                    <img src="imgs/outline.png" />
+                    <img src="imgs/assets/outline.png" />
                     <input type="color" id="choose-outline" class="choose-outline"
                         onchange="onChangeOutline(this.value)">
                 </label>
 
                 <label for="choose-color">
-                    <img src="imgs/palette.png" />
+                    <img src="imgs/assets/palette.png" />
                     <input type="color" id="choose-color" class="choose-color" onchange="onChangeColor(this.value)">
                 </label>
+            </div>
+            <div class="stickers-container">
+                <img src="imgs/assets/next-arrow.png" class="next-arrow" onclick="onNextPage()" />
+                <ul class="stickers-list flex clean-list"></ul>
+                <img src="imgs/assets//prev-arrow.png" class="prev-arrow" onclick="onPrevPage()" />
             </div>
             <div class="save-and-download">
                 <a href="#" onclick="onDownloadCanvas(this)" download="meme.png"><i
@@ -112,6 +116,15 @@
         </div>
     </div>
 
+    <div class="meme-tab-container hide">
+        <div class="delete-container">
+            <button class="delete-meme-btn" onclick="onDeleteMemes()">
+                <i class="fas fa-trash-alt fa-1x"></i> Delete Memes
+            </button>
+        </div>
+        <section class="meme-grid-container"></section>
+    </div>
+
     <footer class="main-footer">
         <h3>Meme Gen</h3>
         <small>All Rights Reserved</small>
@@ -121,6 +134,8 @@
     <script src="js/services/util-service.js"></script>
     <script src="js/services/storage-service.js"></script>
     <script src="js/services/meme-service.js"></script>
+    <script src="js/services/meme-service.js"></script>
+    <script src="js/meme-tab-controller.js"></script>
     <script src="js/meme-controller.js"></script>
 </body>
 

@@ -6,7 +6,6 @@ function onInitMemes() {
 }
 
 
-
 function renderMemes() {
     const memes = loadFromStorage('memeDB');
     const elMemeContainer = document.querySelector('.meme-grid-container');

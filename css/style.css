@@ -136,21 +136,24 @@ a {
     justify-content: center;
     flex: 1;
     background-color: #e3e3e3;
+    margin-block-start: 70px;
     /* margin-bottom: 290px; */
 }
 
 .meme-controls {
+    /* width: 600px;
+    height: 600px; */
     width: 350px;
     height: 350px;
-    margin-inline-start: 1.25rem
+    margin-inline-start: 1.25rem;
 }
-
 
 .meme-controls>* {
     padding: 10px;
     display: flex;
     justify-content: center;
 }
+
 
 .font-list-color-container>* {
     margin-inline-start: 10px;
@@ -176,6 +179,7 @@ a {
     position: relative;
 }
 
+
 select[name="font-family-select"] {
     width: 150px;
     border-radius: 10px;
@@ -198,6 +202,25 @@ select[name="font-family-select"] {
     left: 0;
     opacity: 0;
 }
+
+
+.stickers-container {
+    margin: 0 auto;
+    width: 408px;
+    height: 84px;
+    background: white;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.meme-tab-container {
+    flex: 1;
+}
+
+
 
 
 
@@ -364,16 +387,25 @@ canvas {
     opacity: 0;
 }
 
-
-
-
-
-
-.btn {
-    background: transparent;
-    outline: 0;
-    border: 0;
+.stickers-container img {
+    cursor: pointer;
 }
+
+.stickers-container .next-arrow {
+    position: absolute;
+    left: 0;
+}
+
+.stickers-container .prev-arrow {
+    position: absolute;
+    right: 0;
+}
+
+
+
+
+
+
 
 
 /*Helpers*/
@@ -386,6 +418,13 @@ canvas {
 .hide {
     display: none;
 }
+
+.btn {
+    background: transparent;
+    outline: 0;
+    border: 0;
+}
+
 
 .show {
     display: flex;
@@ -441,12 +480,17 @@ canvas {
     }
 
     .grid-container {
-        grid-template-columns: repeat(2, 163px);
-        gap: 10px
+        grid-template-columns: repeat(2, 130px);
+        gap: 26px;
+        justify-content: center;
+    }
+
+    .grid-container h1 {
+        font-size: 15px;
     }
 
     .grid-container .card-img {
-        max-width: 163px;
+        max-width: 140px;
         margin-inline-start: 10px;
         margin-inline-end: 10px;
 
@@ -518,6 +562,11 @@ canvas {
         justify-content: center;
     }
 
+    .stickers-container {
+        width: 300px;
+        height: 113px;
+    }
+
     .meme-grid-container {
         margin-inline-start: 0;
     }
@@ -525,6 +574,8 @@ canvas {
     .meme-grid-container h1 {
         font-size: 1.062rem;
     }
+
+
 
     .logo {
         display: none;

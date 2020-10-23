@@ -6,21 +6,52 @@ var gMeme = {
     selectedLineIdx: 0,
     lines: [
         _createLine(175, 40)
-    ]
+    ],
+    stickers: []
 }
 
 var gSearchBy;
 var gSavedMemes;
 const STORAGE_KEY = 'memeDB';
+var gStickers;
+
+var gPageIdx = 0;
+var PAGE_SIZE = 4;
 
 function init() {
     _createImgs();
+    _createStickers();
     _createMemeDb();
 }
 
 
-function startDrag() {
+function getStickers() {
+    const fromIdx = gPageIdx * PAGE_SIZE;
+    const endIdx = fromIdx + PAGE_SIZE;
+    console.log(`slicing from ${fromIdx} to  ${fromIdx + PAGE_SIZE}`);
+    return gStickers.slice(fromIdx, endIdx);
+}
 
+function nextPage() {
+    gPageIdx++;
+    console.log('page idx is now', gPageIdx);
+    //1 * 2
+    if (gPageIdx * PAGE_SIZE >= gStickers.length) gPageIdx = 0;
+}
+
+
+//Example  = gStickers = 4, page_size = 3 -> Math.ceil(4/3) -1 = 1
+function prevPage() {
+    console.log('page idx is now', gPageIdx);
+    //if im on the first page and i click prev go to the last page
+    if (gPageIdx === 0) {
+        //Math.ceil(length of all stickers / num of stickers to display in each page) - 1
+        gPageIdx = Math.ceil(gStickers.length / PAGE_SIZE) - 1;
+        console.log('got back to idx:', gPageIdx);
+        return;
+    }
+    gPageIdx -= 1;
+    console.log('page idx is now', gPageIdx);
 }
 
 function dragLine(x, y) {
@@ -31,6 +62,15 @@ function dragLine(x, y) {
 function getKeyWords() {
     return Object.keys(gKeywords);
 }
+
+function getCars() {
+    var fromIdx = gPageIdx * PAGE_SIZE;
+    return gCars.slice(fromIdx, fromIdx + PAGE_SIZE)
+}
+
+// function getStickers() {
+//     return gStickers;
+// }
 
 //get the value of the specified keyword based on the search keyword clicked
 function getFontSize(keyword) {
@@ -86,7 +126,14 @@ function addLine() {
     console.log('Line has been added!')
 }
 
+function addSticker(stickerId) {
+    const sticker = getStickerById(stickerId);
+    gMeme.stickers.push(sticker);
+}
 
+function getMemeStickers() {
+    return gMeme.stickers;
+}
 
 
 function getCurrSelectedIdx() {
@@ -189,7 +236,6 @@ function _createImgs() {
 }
 
 
-
 function _createMemeDb() {
     let memes = loadFromStorage(STORAGE_KEY);
     if (!memes) {
@@ -209,7 +255,6 @@ function _createImg(id, url, keywords = []) {
 }
 
 
-
 function deleteMemes() {
     deleteFromStorage(STORAGE_KEY);
     init();
@@ -219,4 +264,34 @@ function deleteMemes() {
 function _saveMemesToStorage() {
     saveToStorage(STORAGE_KEY, gSavedMemes)
 
+}
+
+
+
+//create stikcer model
+function getStickerById(stickerId) {
+    return gStickers.find(sticker => sticker.id === stickerId);
+}
+
+function _createStickers() {
+    let stickers = [];
+    for (var i = 1; i <= 12; i++) {
+        stickers.push(_createSticker(i))
+    }
+    gStickers = stickers;
+}
+
+function _createSticker(url) {
+    return {
+        id: makeId(),
+        url,
+        coords: randCoords()
+    }
+}
+
+function randCoords() {
+    return {
+        x: Math.floor(Math.random() * 320) + 1,
+        y: Math.floor(Math.random() * 300) + 1
+    }
 }

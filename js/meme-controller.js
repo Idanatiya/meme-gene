@@ -9,12 +9,46 @@ var gCurrDragEl;
 
 function onInit() {
     init();
+    onInitMemes();
     renderImgs();
     renderKeyWords();
+    renderStickers();
     gCanvas = document.querySelector('#my-canvas');
     gCtx = gCanvas.getContext('2d');
     console.log(gCtx)
 }
+
+
+//show and hide sections
+function onOpenMemeTab() {
+    const elImgsContainer = document.querySelector('.img-gallery-container');
+    const elEditorContainer = document.querySelector('.meme-editor-container');
+    const elMemeTabContainer = document.querySelector('.meme-tab-container');
+    if (!elImgsContainer.classList.contains('hide')) {
+        toggleElement(elImgsContainer, 'hide')
+        toggleElement(elMemeTabContainer, 'hide');
+    }
+
+    else if (elImgsContainer.classList.contains('hide')) {
+        elEditorContainer.style.display = 'none';
+        elMemeTabContainer.style.display = 'block';
+        onInitMemes();
+    }
+}
+
+
+function onNextPage() {
+    console.log('On Next page function')
+    nextPage();
+    renderStickers();
+}
+
+function onPrevPage() {
+    console.log('on Prev Page fucntiom');
+    prevPage();
+    renderStickers();
+}
+
 
 
 
@@ -42,6 +76,41 @@ function renderKeyWords() {
     })
     elKeyWordList.innerHTML = strHtmls.join('');
 }
+
+function renderStickers() {
+    const stickers = getStickers();
+    console.log('Stickers to render now:', stickers)
+    const strHtmls = stickers.map(sticker => {
+        return `<li onclick="onAddSticker('${sticker.id}')">
+                    <img src="imgs/stickers/${sticker.url}.png" alt="sticker" />
+                </li>`
+    })
+
+    document.querySelector('.stickers-list').innerHTML = strHtmls.join('');
+}
+
+
+function onAddSticker(stickerId) {
+    console.log('adding...', stickerId);
+    //add curr sticker to model
+    addSticker(stickerId);
+    //draw sticker to cnavas
+    drawSticker(stickerId);
+}
+
+
+
+
+function drawSticker(stickerId) {
+    const sticker = getStickerById(stickerId);
+    console.log('drawed sticker with id of:', sticker);
+    var img = new Image()
+    img.src = `imgs/stickers/${sticker.url}.png`;
+    img.onload = () => {
+        gCtx.drawImage(img, sticker.coords.x, sticker.coords.y)
+    }
+}
+
 
 function onFilterByClick(elKeyword) {
     const keyword = elKeyword.innerText;
@@ -136,9 +205,12 @@ function onManageAlignment(direction) {
 function onAddLine() {
     //add line to mode
     addLine();
+    switchLines();
     renderCanvas();
     document.querySelector('.add-txt').value = '';
 }
+
+
 function onSwitchLines() {
     const rect = gCanvas.getBoundingClientRect();
     console.log('rect', rect);
@@ -190,7 +262,17 @@ function renderCanvas() {
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
         drawLines();
+        drawStickers();
     }
+}
+
+
+
+function drawStickers() {
+    const memeStickers = getMemeStickers();
+    memeStickers.forEach(sticker => {
+        drawSticker(sticker.id);
+    })
 }
 
 
@@ -200,7 +282,7 @@ function drawLines() {
     //loop through each line obj in lines and draw a text into the canvas
     meme.lines.forEach((line, idx) => {
         console.log('line:', line)
-        if (idx === meme.selectedLineIdx) drawRect(0, line.coords.y - 35)
+        if (idx === meme.selectedLineIdx) drawRect(line.coords.x, line.coords.y + 5)
         drawText(line.txt, line.size, line.font, line.color, line.outline, line.align, line.coords.x, line.coords.y)
     })
 }
@@ -223,11 +305,13 @@ function drawText(txt, size, fontName, color, outlineColor, align, x, y) {
 
 function drawRect(x, y) {
     const meme = getCurrMeme();
+    const memeTxt = meme.lines[meme.selectedLineIdx].txt;
+    const memeSize = -meme.lines[meme.selectedLineIdx].size
     gCtx.beginPath();
-    gCtx.rect(x, y, 370, meme.lines[meme.selectedLineIdx].size + 5);
-
     gCtx.fillStyle = '#ffffff60'
-    gCtx.fillRect(x, y, 370, meme.lines[meme.selectedLineIdx].size + 5);
+    // gCtx.fillStyle = '#fafafa'
+    gCtx.rect(0, y, gCanvas.width, memeSize);
+    gCtx.fillRect(0, y, gCanvas.width, memeSize);
 }
 
 //Draw img on canvas
@@ -242,9 +326,6 @@ function loadImgToCanvas(imgUrl) {
     }
 }
 
-
-
-
 function onGetClickedLine(ev) {
     //offset relative to the container
     const { offsetX, offsetY } = ev;
@@ -253,7 +334,6 @@ function onGetClickedLine(ev) {
 
     console.log(offsetX, offsetY);
     console.log(clientX, clientY);
-
     //get meme obj
     const memes = getCurrMeme();
     const clickedLine = memes.lines.find(line => {
@@ -282,9 +362,7 @@ function onStartDrag(ev) {
 
     }
     switchLines();
-
     //Starting position
-
 }
 
 function onDragLine(ev) {
@@ -309,6 +387,13 @@ function onStopDrag(ev) {
     gCtx.closePath();
 }
 
+function resizeCanvas() {
+    var elContainer = document.querySelector('.canvas-container');
+    console.log(elContainer.offsetWidth);
+    // Note: changing the canvas dimension this way clears the canvas
+    gCanvas.width = elContainer.offsetWidth // show width & height in CSS
+    gCanvas.height = elContainer.offsetHeight
+}
 
 
 
