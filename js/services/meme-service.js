@@ -5,7 +5,7 @@ var gMeme = {
     selectedImgId: null,
     selectedLineIdx: 0,
     lines: [
-        _createLine(175, 40)
+        _createLine(0, 40)
     ],
     stickers: []
 }
@@ -25,34 +25,6 @@ function init() {
 }
 
 
-function getStickers() {
-    const fromIdx = gPageIdx * PAGE_SIZE;
-    const endIdx = fromIdx + PAGE_SIZE;
-    console.log(`slicing from ${fromIdx} to  ${fromIdx + PAGE_SIZE}`);
-    return gStickers.slice(fromIdx, endIdx);
-}
-
-function nextPage() {
-    gPageIdx++;
-    console.log('page idx is now', gPageIdx);
-    //1 * 2
-    if (gPageIdx * PAGE_SIZE >= gStickers.length) gPageIdx = 0;
-}
-
-
-//Example  = gStickers = 4, page_size = 3 -> Math.ceil(4/3) -1 = 1
-function prevPage() {
-    console.log('page idx is now', gPageIdx);
-    //if im on the first page and i click prev go to the last page
-    if (gPageIdx === 0) {
-        //Math.ceil(length of all stickers / num of stickers to display in each page) - 1
-        gPageIdx = Math.ceil(gStickers.length / PAGE_SIZE) - 1;
-        console.log('got back to idx:', gPageIdx);
-        return;
-    }
-    gPageIdx -= 1;
-    console.log('page idx is now', gPageIdx);
-}
 
 function dragLine(x, y) {
     gMeme.lines[gMeme.selectedLineIdx].coords.x = x;
@@ -118,10 +90,10 @@ function switchLines() {
 }
 
 function addLine() {
-    if (gMeme.lines.length === 0) gMeme.lines.push(_createLine(175, 40));
-    else if (gMeme.lines.length === 1) gMeme.lines.push(_createLine(175, 330));
-    else if (gMeme.lines.length === 2) gMeme.lines.push(_createLine(175, 185));
-    else gMeme.lines.push(_createLine(175, 185))
+    if (gMeme.lines.length === 0) gMeme.lines.push(_createLine(0, 40));
+    else if (gMeme.lines.length === 1) gMeme.lines.push(_createLine(0, 330));
+    else if (gMeme.lines.length === 2) gMeme.lines.push(_createLine(0, 185));
+    else gMeme.lines.push(_createLine(0, 185))
     // gMeme.lines.push(_createLine())
     console.log('Line has been added!')
 }
@@ -195,9 +167,9 @@ function saveCanvas(imgData) {
 function _createLine(x, y) {
     return {
         txt: 'Enter Your Text',
-        size: 40,
+        size: 60,
         coords: { x, y },
-        align: 'center',
+        align: 'left',
         color: 'white',
         font: 'Impact',
         outline: 'black'
@@ -266,6 +238,34 @@ function _saveMemesToStorage() {
 
 }
 
+function getStickers() {
+    const fromIdx = gPageIdx * PAGE_SIZE;
+    const endIdx = fromIdx + PAGE_SIZE;
+    console.log(`slicing from ${fromIdx} to  ${fromIdx + PAGE_SIZE}`);
+    return gStickers.slice(fromIdx, endIdx);
+}
+
+function nextPage() {
+    gPageIdx++;
+    console.log('page idx is now', gPageIdx);
+    //1 * 2
+    if (gPageIdx * PAGE_SIZE >= gStickers.length) gPageIdx = 0;
+}
+
+
+//Example  = gStickers = 4, page_size = 3 -> Math.ceil(4/3) -1 = 1
+function prevPage() {
+    console.log('page idx is now', gPageIdx);
+    //if im on the first page and i click prev go to the last page
+    if (gPageIdx === 0) {
+        //Math.ceil(length of all stickers / num of stickers to display in each page) - 1
+        gPageIdx = Math.ceil(gStickers.length / PAGE_SIZE) - 1;
+        console.log('got back to idx:', gPageIdx);
+        return;
+    }
+    gPageIdx -= 1;
+    console.log('page idx is now', gPageIdx);
+}
 
 
 //create stikcer model

@@ -268,6 +268,7 @@ function renderCanvas() {
 
 
 
+//draw the stuicker the user already chose evreytime when canvas is rendered
 function drawStickers() {
     const memeStickers = getMemeStickers();
     memeStickers.forEach(sticker => {
@@ -282,8 +283,9 @@ function drawLines() {
     //loop through each line obj in lines and draw a text into the canvas
     meme.lines.forEach((line, idx) => {
         console.log('line:', line)
-        if (idx === meme.selectedLineIdx) drawRect(line.coords.x, line.coords.y + 5)
+        console.log(`painting rect in pos: ${line.coords.x},${line.coords.y}`);
         drawText(line.txt, line.size, line.font, line.color, line.outline, line.align, line.coords.x, line.coords.y)
+        if (idx === meme.selectedLineIdx) drawRect(line.coords.x, line.coords.y)
     })
 }
 
@@ -306,12 +308,15 @@ function drawText(txt, size, fontName, color, outlineColor, align, x, y) {
 function drawRect(x, y) {
     const meme = getCurrMeme();
     const memeTxt = meme.lines[meme.selectedLineIdx].txt;
-    const memeSize = -meme.lines[meme.selectedLineIdx].size
+    const yRectSize = -meme.lines[meme.selectedLineIdx].size
     gCtx.beginPath();
+
+    gCtx.lineWidth = 4;
     gCtx.fillStyle = '#ffffff60'
-    // gCtx.fillStyle = '#fafafa'
-    gCtx.rect(0, y, gCanvas.width, memeSize);
-    gCtx.fillRect(0, y, gCanvas.width, memeSize);
+    //draw border
+    gCtx.strokeRect(x, y, gCtx.measureText(memeTxt).width + 8, yRectSize + 4);
+    //fill the rect
+    gCtx.fillRect(x, y, gCtx.measureText(memeTxt).width + 8, yRectSize + 4);
 }
 
 //Draw img on canvas
@@ -321,8 +326,6 @@ function loadImgToCanvas(imgUrl) {
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height) //img,x,y,xend,yend
         renderCanvas()
-        // drawText(txt, 30, 40)
-
     }
 }
 
