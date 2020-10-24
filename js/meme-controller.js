@@ -4,7 +4,7 @@ console.log('Js is running!');
 var gCanvas;
 var gCtx;
 var gIsDrag;
-var gCurrDragEl;
+
 
 
 function onInit() {
@@ -293,7 +293,6 @@ function drawText(txt, size, fontName, color, outlineColor, align, x, y) {
     gCtx.lineWidth = 2;
     gCtx.font = `${size}px ${fontName}`;
     //aligning
-    // gCtx.textAlign = 'left';
     gCtx.textAlign = align;
     //text color
     gCtx.fillStyle = color;
@@ -329,52 +328,51 @@ function loadImgToCanvas(imgUrl) {
     }
 }
 
-function onGetClickedLine(ev) {
-    //offset relative to the container
-    const { offsetX, offsetY } = ev;
-    //offset relative to the screen
-    const { clientX, clientY } = ev;
-
-    console.log(offsetX, offsetY);
-    console.log(clientX, clientY);
+function onGetLineFocused(ev) {
+    //check if user in mobile if so calculate for mobile, if not just get the offset
+    var rect = document.querySelector('#my-canvas').getBoundingClientRect();
+    const x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
+    const y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
     //get meme obj
-    const memes = getCurrMeme();
-    const clickedLine = memes.lines.find(line => {
-        return offsetX > line.coords.x && offsetY < line.coords.y;
+    const meme = getCurrMeme();
+    const lineIdx = meme.lines.findIndex(line => {
+        console.log('line:', line);
+        const txtWidth = gCtx.measureText(line.txt).width
+        const txtHeight = line.size;
+        return x > line.coords.x && x < line.coords.x + txtWidth && (y < line.coords.y && y > line.coords.y - txtHeight);
     })
-    if (!clickedLine) return;
+    if (lineIdx !== -1) meme.selectedLineIdx = lineIdx;
 
-    //get the txt of line clicked to the input;
-    document.querySelector('.add-txt').value = clickedLine.txt;
-
+    //update the input to contain the txt of the focused line
+    document.querySelector('.add-txt').value = meme.lines[lineIdx].txt;
+    return lineIdx;
 }
 
-function onStartDrag(ev) {
-    // console.log('start the drag', ev)
-    gCtx.beginPath();
-    gIsDrag = true;
-    if (ev.touches) {
-        ev.preventDefault();
-        var rect = document.querySelector('#my-canvas').getBoundingClientRect();
-        var x = ev.touches[0].clientX - rect.left;
-        var y = ev.touches[0].clientY - rect.top;
-        gCtx.moveTo(x, y)
-    } else {
-        const { offsetX, offsetY } = ev;
-        gCtx.moveTo(offsetX, offsetY)
 
+function onStartDrag(ev) {
+    // debugger
+    ev.preventDefault();
+    gCtx.beginPath();
+    console.log('event:', ev);
+    // console.log('start the drag', ev)
+    const isLineExists = onGetLineFocused(ev);
+    console.log('line exists?:', isLineExists);
+    if (isLineExists === -1) {
+        console.log('not drag an drop!');
+        return;
     }
-    switchLines();
-    //Starting position
+    gIsDrag = true;
+    var rect = document.querySelector('#my-canvas').getBoundingClientRect();
+    const x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
+    const y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
+    gCtx.moveTo(x, y);
 }
 
 function onDragLine(ev) {
+    ev.preventDefault();
     //if we are not in drag mode i dont run the func
     if (!gIsDrag) return;
-
     //get end position
-    // var x = ev.offsetX;
-    // var y = ev.offsetY;
     var rect = document.querySelector('#my-canvas').getBoundingClientRect();
     // console.log(rect);
     var x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
@@ -403,7 +401,6 @@ function resizeCanvas() {
 function toggleMenu() {
     document.body.classList.toggle('menu-open');
 }
-
 
 
 

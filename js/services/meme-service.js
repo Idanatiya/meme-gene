@@ -25,6 +25,10 @@ function init() {
 }
 
 
+function getCurrMemeLines() {
+    return gMeme.lines;
+}
+
 
 function dragLine(x, y) {
     gMeme.lines[gMeme.selectedLineIdx].coords.x = x;
@@ -167,7 +171,7 @@ function saveCanvas(imgData) {
 function _createLine(x, y) {
     return {
         txt: 'Enter Your Text',
-        size: 60,
+        size: 40,
         coords: { x, y },
         align: 'left',
         color: 'white',

@@ -441,9 +441,9 @@ canvas {
 
 
 @media (max-width: 540px) {
-    canvas {
+    /* canvas {
         width: 100%;
-    }
+    } */
 
     .header {
         width: 100%;
