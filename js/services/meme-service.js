@@ -14,6 +14,8 @@ var gMeme = {
 var gSearchBy;
 var gSavedMemes;
 const STORAGE_KEY = 'memeDB';
+
+//holds the data for all stickers
 var gStickers;
 
 var gPageIdx = 0;
@@ -71,7 +73,11 @@ function deleteLine() {
     console.log('line idx', gMeme.selectedLineIdx, 'has been deleted!')
     gMeme.lines.splice(gMeme.selectedLineIdx, 1)
     if (gMeme.selectedLineIdx > 0) gMeme.selectedLineIdx -= 1
+}
 
+function deleteSticker() {
+    console.log('deleted sticker in idx:', gMeme.selectedStickerIdx)
+    gMeme.stickers.splice(gMeme.selectedStickerIdx, 1);
 }
 
 
@@ -108,16 +114,19 @@ function addLine() {
     console.log('Line has been added!')
 }
 
+//update selectedStickerIdx to get focused on the spefific focused sticker the user is on
 function addSticker(stickerId, stickerWidth, stickerHeight) {
-    if (gMeme.selectedLineIdx === gMeme.stickers.length) gMeme.selectedStickerIdx = 0;
-    else gMeme.selectedStickerIdx += 1;
-    console.log(`On add sticker service,  adding : ${stickerWidth},${stickerHeight}`)
+    // debugger;
+    gMeme.selectedStickerIdx += 1;
     const sticker = getStickerById(stickerId);
+    //Update sticker with and height propeties when user draw an sticker
     sticker.stickerWidth = stickerWidth;
     sticker.stickerHeight = stickerHeight
     console.log('STICKER IS:', sticker);
+    //push the sticeker
     gMeme.stickers.push(sticker);
-    // gMeme.stickers.push({ ...sticker, stickerWidth, stickerHeight });
+    if (gMeme.selectedStickerIdx === gMeme.stickers.length) gMeme.selectedStickerIdx = 0;
+    console.log(`On add sticker service,  adding : ${stickerWidth},${stickerHeight}`)
 }
 
 
@@ -294,7 +303,7 @@ function prevPage() {
 }
 
 
-//create stikcer model
+//getting the speciffic sticker by id in order to get the data for the specific sticker
 function getStickerById(stickerId) {
     return gStickers.find(sticker => sticker.id === stickerId);
 }

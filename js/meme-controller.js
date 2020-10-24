@@ -93,13 +93,9 @@ function renderStickers() {
 
 
 function onAddSticker(elSticker, stickerId) {
-    console.log('adding...', stickerId);
-    console.log(elSticker);
-    console.log(`width of img:${elSticker.width},${elSticker.height}`);
-    const imgWidth = elSticker.width
-    const imgHeight = elSticker.height;
-    //add curr sticker to model
-    //add sticker and update width and height
+    //change focus mode to sticker
+    gFocusMode = 'sticker';
+    //add curr sticker to model and set img with and height;
     addSticker(stickerId, elSticker.width, elSticker.height);
     //draw sticker to cnavas
     drawSticker(stickerId);
@@ -176,9 +172,24 @@ function onDownloadCanvas(elLink) {
     elLink.href = data;
 }
 
+function onManageFontSize(diff) {
+    const meme = getCurrMeme();
+    //change fontSize or width of sticker based on the focus mode
+    if (gFocusMode === 'line') manageFontSize(meme.selectedLineIdx, diff)
+    else manageStickerSize(diff);
+    renderCanvas()
+}
 function onDeleteLine() {
-    console.log('trash clicked!')
-    deleteLine();
+    const meme = getCurrMeme();
+    if (gFocusMode === 'line') {
+        deleteLine();
+    } else {
+        deleteSticker();
+        if (!meme.stickers.length) {
+            console.log('chaning focus to line mode')
+            gFocusMode = 'line'
+        }
+    }
     renderCanvas();
 }
 
@@ -212,6 +223,7 @@ function onManageAlignment(direction) {
 //add 1 more line
 function onAddLine() {
     //add line to mode
+    gFocusMode = 'line';
     addLine();
     switchLines();
     renderCanvas();
@@ -247,14 +259,9 @@ function onTxtChange(elInput) {
 //manage font sizes
 function onManageFontSize(diff) {
     const meme = getCurrMeme();
-    //change fontsize on service
-    if (gFocusMode === 'line') {
-        manageFontSize(meme.selectedLineIdx, diff);
-    } else {
-        console.log('activate sticker resize');
-        manageStickerSize(diff);
-        // drawStickers();
-    }
+    //change fontSize or width of sticker based on the focus mode
+    if (gFocusMode === 'line') manageFontSize(meme.selectedLineIdx, diff)
+    else manageStickerSize(diff);
     renderCanvas()
 }
 
