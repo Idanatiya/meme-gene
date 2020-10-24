@@ -143,6 +143,14 @@ a {
     margin-inline-start: 1.25rem;
 }
 
+.meme-controls button {
+    transition: 0.5s ease;
+}
+
+.meme-controls button:hover {
+    transform: scale(1.1);
+}
+
 
 
 .meme-controls>* {
@@ -170,6 +178,8 @@ a {
     border-radius: 10px;
     padding: 10px;
     width: 100%;
+    font-size: 1.5rem;
+    font-family: Rubik, sans-serif;
 }
 
 /*Pallte*/
@@ -399,11 +409,20 @@ canvas {
     position: absolute;
     left: 0;
     width: 15px;
+    transition: transform 0.3s ease;
 }
 
 .stickers-container .prev-arrow {
     position: absolute;
-    right: 4px;
+    right: 8px;
+    width: 15px;
+    transition: transform 0.3s ease;
+}
+
+
+.stickers-container .prev-arrow:hover,
+.stickers-container .next-arrow:hover {
+    transform: scale(1.4);
 }
 
 .meme-save-modal {
