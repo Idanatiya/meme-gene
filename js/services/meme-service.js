@@ -7,6 +7,7 @@ var gMeme = {
     lines: [
         _createLine(0, 40)
     ],
+    selectedStickerIdx: 0,
     stickers: []
 }
 
@@ -25,14 +26,17 @@ function init() {
 }
 
 
-function getCurrMemeLines() {
-    return gMeme.lines;
-}
-
-
+//update model line each drag
 function dragLine(x, y) {
     gMeme.lines[gMeme.selectedLineIdx].coords.x = x;
     gMeme.lines[gMeme.selectedLineIdx].coords.y = y;
+}
+
+function dragSticker(x, y) {
+    console.log('in service:', x)
+    console.log('in service:', y)
+    gMeme.stickers[gMeme.selectedStickerIdx].coords.x = x
+    gMeme.stickers[gMeme.selectedStickerIdx].coords.y = y;
 }
 
 function getKeyWords() {
@@ -102,11 +106,13 @@ function addLine() {
     console.log('Line has been added!')
 }
 
-function addSticker(stickerId) {
+function addSticker(stickerId, stickerWidth, stickerHeight) {
     const sticker = getStickerById(stickerId);
-    gMeme.stickers.push(sticker);
+    gMeme.stickers.push({ ...sticker, stickerWidth, stickerHeight });
 }
 
+
+//get the array of stickers from gMeme
 function getMemeStickers() {
     return gMeme.stickers;
 }
@@ -242,6 +248,8 @@ function _saveMemesToStorage() {
 
 }
 
+
+//*****Stickers logic******///
 function getStickers() {
     const fromIdx = gPageIdx * PAGE_SIZE;
     const endIdx = fromIdx + PAGE_SIZE;
@@ -252,10 +260,8 @@ function getStickers() {
 function nextPage() {
     gPageIdx++;
     console.log('page idx is now', gPageIdx);
-    //1 * 2
     if (gPageIdx * PAGE_SIZE >= gStickers.length) gPageIdx = 0;
 }
-
 
 //Example  = gStickers = 4, page_size = 3 -> Math.ceil(4/3) -1 = 1
 function prevPage() {
@@ -285,11 +291,13 @@ function _createStickers() {
     gStickers = stickers;
 }
 
-function _createSticker(url) {
+function _createSticker(url, stickerWidth = 0, stickerHeight = 0) {
     return {
         id: makeId(),
         url,
-        coords: randCoords()
+        coords: randCoords(),
+        stickerWidth,
+        stickerHeight
     }
 }
 
