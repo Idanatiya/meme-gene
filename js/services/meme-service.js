@@ -336,7 +336,7 @@ function _createSticker(url, stickerWidth = 0, stickerHeight = 0) {
 
 function randCoords() {
     return {
-        x: Math.floor(Math.random() * 320) + 1,
-        y: Math.floor(Math.random() * 300) + 1
+        x: Math.floor(Math.random() * 250) + 1,
+        y: Math.floor(Math.random() * 250) + 1
     }
 }

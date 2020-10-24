@@ -245,6 +245,7 @@ select[name="font-family-select"] {
     display: flex;
     align-items: center;
     justify-content: space-around;
+    height: 220px;
 }
 
 .footer-container {
@@ -404,6 +405,19 @@ canvas {
     right: 4px;
 }
 
+.meme-save-modal {
+    padding: 12px;
+    width: 200px;
+    background-color: green;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: none;
+    margin: 0 auto;
+}
+
 /* .stickers-list li img {
     width: 0px;
     margin-inline-start: 6px;
@@ -472,6 +486,10 @@ body.menu-open .screen {
         width: 100%;
     }
 
+    .canvas-container {
+        margin-block-start: 70px;
+    }
+
     .nav-links {
         flex-direction: column;
         align-items: center;
@@ -496,7 +514,14 @@ body.menu-open .screen {
         text-align: center;
         padding-block-start: 40px;
         padding-block-end: 40px;
+        transition: background-color .3s ease;
         margin: 0;
+    }
+
+    .nav-links li:hover {
+        background-color: #0b132b;
+        transform: scale(1);
+        text-decoration: none;
     }
 
     .nav-links li a {
@@ -598,6 +623,7 @@ body.menu-open .screen {
 
     select[name="font-family-select"] {
         height: 39px;
+        width: 155px;
     }
 
     .stickers-container {
@@ -607,12 +633,14 @@ body.menu-open .screen {
 
     .stickers-container .prev-arrow {
         position: absolute;
-        right: 19px;
+        right: 17px;
+        width: 15px;
     }
 
     .stickers-container .next-arrow {
         position: absolute;
         left: 17px;
+        width: 15px;
     }
 
     .meme-grid-container {

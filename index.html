@@ -25,9 +25,6 @@
         <button class="toggle-btn" onclick="toggleMenu()"><i class="fas fa-bars fa-2x"></i></button>
     </header>
     <div class="img-gallery-container">
-        <!-- <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
-            <input name="img" id="imgData" type="hidden" />
-        </form> -->
         <section class="filter-section">
             <input type="text" name="filterInput" placeholder="Enter search keyword..."
                 oninput="onSetSearchTerm(this.value)" class="" />
@@ -117,6 +114,9 @@
                     <i class="fas fa-save fa-3x"></i>
                 </a>
             </div>
+            <div class="meme-save-modal">
+                <span>Meme has been saved!</span>
+            </div>
         </div>
     </div>
 
@@ -132,10 +132,10 @@
     <footer class="main-footer">
         <h3>Meme Gen</h3>
         <small>All Rights Reserved</small>
-
     </footer>
 
     <script src="js/services/util-service.js"></script>
+    <script src="js/services/upload-service.js"></script>
     <script src="js/services/storage-service.js"></script>
     <script src="js/services/meme-service.js"></script>
     <script src="js/services/meme-service.js"></script>

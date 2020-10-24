@@ -176,8 +176,17 @@ function onSaveMeme() {
     // elLink.href = imgData;
     console.log('got here')
     saveCanvas(imgData);
+    showAlert();
 }
 
+function showAlert() {
+    const elAlert = document.querySelector('.meme-save-modal');
+    elAlert.style.display = 'block';
+    setTimeout(() => {
+        elAlert.style.display = 'none';
+    }, 1500)
+
+}
 
 function onDownloadCanvas(elLink) {
     //turn img into base 64
@@ -457,7 +466,7 @@ function onDragLine(ev) {
     //get end position
     var rect = document.querySelector('#my-canvas').getBoundingClientRect();
     // console.log(rect);
-    var x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
+    var x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX
     var y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
     if (gFocusMode === 'line') {
         dragLine(x, y);
@@ -487,16 +496,6 @@ function onResizeCanvas(ev) {
     gCanvas.width = elContainer.offsetWidth // show width & height in CSS
     gCanvas.height = elContainer.offsetHeight
 }
-
-// function resizeCanvasMobile() {
-//     if (window.screen.width < 540) {
-//         gCanvas.width = 300;
-//         gCanvas.height = 300;
-//     }
-//     renderCanvas()
-// }
-
-
 
 
 function toggleMenu() {
