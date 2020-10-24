@@ -216,6 +216,7 @@ function _createImgs() {
     memeImgs.push(_createImg(17, 'meme-imgs/17.jpg', ['politc', 'putin']));
     memeImgs.push(_createImg(18, 'meme-imgs/18.jpg', ['funny', 'cute']));
     memeImgs.push(_createImg(19, 'meme-imgs/19.jpg', ['funny', 'cute']));
+    memeImgs.push(_createImg(20, 'meme-imgs/20.jpg', ['funny', 'cute']));
     gImgs = memeImgs;
 
 }
@@ -284,7 +285,7 @@ function getStickerById(stickerId) {
 
 function _createStickers() {
     let stickers = [];
-    for (var i = 1; i <= 12; i++) {
+    for (var i = 1; i <= 20; i++) {
         stickers.push(_createSticker(i))
     }
     gStickers = stickers;

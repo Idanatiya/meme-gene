@@ -47,9 +47,9 @@ a {
     font-size: 25px;
 }
 
-.nav-links,
-.social-links {
+.nav-links {
     display: flex;
+    cursor: pointer;
 }
 
 .nav-links li {
@@ -204,7 +204,7 @@ select[name="font-family-select"] {
 .font-list-color-container .choose-color {
     cursor: pointer;
     position: absolute;
-    top: 0;
+    top: 17px;
     left: 0;
     opacity: 0;
 }
@@ -407,7 +407,7 @@ canvas {
 
 .stickers-container .next-arrow {
     position: absolute;
-    left: 0;
+    left: 11px;
     width: 15px;
     transition: transform 0.3s ease;
 }
@@ -437,15 +437,6 @@ canvas {
     display: none;
     margin: 0 auto;
 }
-
-/* .stickers-list li img {
-    width: 0px;
-    margin-inline-start: 6px;
-    margin-inline-end: 6px;
-}
-
-*/
-
 
 
 
