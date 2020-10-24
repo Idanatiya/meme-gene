@@ -17,8 +17,23 @@ function onInit() {
     renderStickers();
     gCanvas = document.querySelector('#my-canvas');
     gCtx = gCanvas.getContext('2d');
-    console.log(gCtx)
+    console.log(gCtx);
+    // window.addEventListener('orientationchange', resizeCanvasMobile);
 }
+
+
+function resizeCanvas() {
+    const elContainer = document.querySelector('.canvas-container');
+    console.log(elContainer.offsetWidth, elContainer.offsetWidth)
+    if (window.innerWidth < 720) {
+        gCanvas.width = 300;
+        gCanvas.height = 300;
+    } else {
+        gCanvas.width = 600;
+        gCanvas.height = 600;
+    }
+}
+
 
 
 //show and hide sections
@@ -181,6 +196,7 @@ function onManageFontSize(diff) {
 }
 function onDeleteLine() {
     const meme = getCurrMeme();
+    debugger;
     if (gFocusMode === 'line') {
         deleteLine();
     } else {
@@ -281,6 +297,7 @@ function renderCanvas() {
     const img = new Image();
     img.src = `${imgSelected.url}`;
     img.onload = () => {
+        resizeCanvas()
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
         drawLines();
         drawStickers();
@@ -349,6 +366,12 @@ function loadImgToCanvas(imgUrl) {
     }
 }
 
+// function fixAspectRatio() {
+//     const canvasWidth = gCanvas.width;
+//     const canvasHeight = //(img height * canvasWidth) / imgWidth
+// }
+
+
 function onGetLineFocused(ev) {
     //check if user in mobile if so calculate for mobile, if not just get the offset
     var rect = document.querySelector('#my-canvas').getBoundingClientRect();
@@ -363,27 +386,11 @@ function onGetLineFocused(ev) {
         return x > line.coords.x && x < line.coords.x + txtWidth && (y < line.coords.y && y > line.coords.y - txtHeight);
     })
 
-    // if (meme.stickers.length)
-    //     const stickerIdx = meme.stickers.findIndex(sticker => {
-    //         console.log(`OffsetX: ${x}, offsetY: ${y}`)
-    //         console.log('sticker width:', sticker.stickerWidth);
-    //         console.log('sticker height:', sticker.stickerHeight);
-    //         console.log(`sticker coords on canvas: (${sticker.coords.x},${sticker.coords.y})`)
-    //         console.log('isStickerClicked?:', x > sticker.coords.x && x < sticker.coords.x + sticker.stickerWidth && y < sticker.coords.y && y > sticker.coords.y - sticker.stickerHeight);
-    //         return x > sticker.coords.x && x < sticker.coords.x + sticker.stickerWidth && y - sticker.stickerHeight < sticker.coords.y && y > sticker.coords.y - sticker.stickerHeight;
-    //     })
-
-    // console.log('sticker idx:', stickerIdx);
-
     if (lineIdx !== -1) {
         meme.selectedLineIdx = lineIdx;
         document.querySelector('.add-txt').value = meme.lines[lineIdx].txt;
         gFocusMode = 'line'
     }
-
-    // if (stickerIdx !== -1) {
-    //     meme.selectedStickerIdx = stickerIdx;
-    // }
     //update the input to contain the txt of the focused line
     return lineIdx;
 }
@@ -404,12 +411,8 @@ function onFocusSticker(ev) {
     const x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
     const y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
     const stickerIdx = meme.stickers.findIndex(sticker => {
-        // console.log(`OffsetX: ${x}, offsetY: ${y}`)
-        // console.log('sticker width:', sticker.stickerWidth);
-        // console.log('sticker height:', sticker.stickerHeight);
-        // console.log(`sticker coords on canvas: (${sticker.coords.x},${sticker.coords.y})`)
-        // console.log('isStickerClicked?:', x > sticker.coords.x && x < sticker.coords.x + sticker.stickerWidth && y < sticker.coords.y && y > sticker.coords.y - sticker.stickerHeight);
-        return x > sticker.coords.x && x < sticker.coords.x + sticker.stickerWidth && y - sticker.stickerHeight < sticker.coords.y && y > sticker.coords.y - sticker.stickerHeight;
+        return (x > sticker.coords.x && x < sticker.coords.x + sticker.stickerWidth) &&
+            (y - sticker.stickerHeight < sticker.coords.y && y > sticker.coords.y - sticker.stickerHeight);
     })
     console.log('sticker idx:', stickerIdx);
     if (stickerIdx !== -1) {
@@ -473,13 +476,26 @@ function onStopDrag(ev) {
     gCtx.closePath();
 }
 
-function resizeCanvas() {
+
+
+
+function onResizeCanvas(ev) {
+    console.log(ev);
     var elContainer = document.querySelector('.canvas-container');
     console.log(elContainer.offsetWidth);
     // Note: changing the canvas dimension this way clears the canvas
     gCanvas.width = elContainer.offsetWidth // show width & height in CSS
     gCanvas.height = elContainer.offsetHeight
 }
+
+// function resizeCanvasMobile() {
+//     if (window.screen.width < 540) {
+//         gCanvas.width = 300;
+//         gCanvas.height = 300;
+//     }
+//     renderCanvas()
+// }
+
 
 
 

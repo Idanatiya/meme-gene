@@ -10,7 +10,8 @@
     <title>Meme Generator</title>
 </head>
 
-<body onload="onInit()">
+<body onload="onInit()" onresize="resizeCanvas()">
+    <div class="screen" onclick="toggleMenu()"></div>
     <header class="main-header">
         <div class="brand-logo">
             <img src="imgs/assets/001.png" class="logo" alt="">
@@ -29,7 +30,7 @@
         </form> -->
         <section class="filter-section">
             <input type="text" name="filterInput" placeholder="Enter search keyword..."
-                onkeyup="onSetSearchTerm(this.value)" class="" />
+                oninput="onSetSearchTerm(this.value)" class="" />
             <ul class="keyword-list flex clean-list"></ul>
         </section>
         <div class="grid-container"></div>
@@ -44,13 +45,13 @@
 
     <div class="meme-editor-container hide">
         <div class="canvas-container">
-            <canvas id="my-canvas" height="350" width="350" onclick="onGetLineFocused(event)"
+            <canvas id="my-canvas" height="600" width="600" onclick="onGetLineFocused(event)"
                 onmousedown="onStartDrag(event)" onmouseup="onStopDrag(event)" onmousemove="onDragLine(event)"
                 ontouchstart="onStartDrag(event)" ontocuhend="onStopDrag(event)" ontouchmove="onDragLine(event)">
             </canvas>
         </div>
         <div class="meme-controls">
-            <input type="text" name="add-txt" class="add-txt" onkeyup="onTxtChange(this)"
+            <input type="text" name="add-txt" class="add-txt" oninput="onTxtChange(this)"
                 placeholder="Enter text here..." />
             <div class="add-remove-change-container">
                 <button class="move-down" onclick="onManageDirection(5)">
@@ -99,7 +100,7 @@
                 </label>
 
                 <label for="choose-color">
-                    <img src="imgs/assets/palette.png" />
+                    <img src="imgs/assets/palette.png" class="palette-img" />
                     <input type="color" id="choose-color" class="choose-color" onchange="onChangeColor(this.value)">
                 </label>
             </div>

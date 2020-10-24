@@ -4,9 +4,7 @@ var gImgs;
 var gMeme = {
     selectedImgId: null,
     selectedLineIdx: 0,
-    lines: [
-        _createLine(0, 40)
-    ],
+    lines: [],
     selectedStickerIdx: 0,
     stickers: []
 }
@@ -20,11 +18,12 @@ var gStickers;
 
 var gPageIdx = 0;
 var PAGE_SIZE = 4;
-
 function init() {
     _createImgs();
     _createStickers();
     _createMemeDb();
+    if (window.innerWidth < 540) gMeme.lines.push(_createLine(27, 40));
+    else if (window.innerWidth > 540) gMeme.lines.push(_createLine(170, 42));
 }
 
 
@@ -106,12 +105,21 @@ function switchLines() {
 // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
 
 function addLine() {
-    if (gMeme.lines.length === 0) gMeme.lines.push(_createLine(0, 40));
-    else if (gMeme.lines.length === 1) gMeme.lines.push(_createLine(0, 330));
-    else if (gMeme.lines.length === 2) gMeme.lines.push(_createLine(0, 185));
-    else gMeme.lines.push(_createLine(0, 185))
-    // gMeme.lines.push(_createLine())
-    console.log('Line has been added!')
+    if (window.innerWidth < 540) {
+        setLinesInMobile();
+    } else {
+        setLinesInDesktop();
+    }
+}
+
+function setLinesInDesktop() {
+    if (gMeme.lines.length === 2) gMeme.lines.push(_createLine(170, 590))
+    else gMeme.lines.push(_createLine(170, 300));
+}
+
+function setLinesInMobile() {
+    if (gMeme.lines.length === 2) gMeme.lines.push(_createLine(27, 295));
+    else gMeme.lines.push(_createLine(27, 170));
 }
 
 //update selectedStickerIdx to get focused on the spefific focused sticker the user is on
