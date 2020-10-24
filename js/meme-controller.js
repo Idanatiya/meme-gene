@@ -4,8 +4,6 @@ console.log('Js is running!');
 var gCanvas;
 var gCtx;
 var gIsDrag;
-var gFocusLine;
-var gFocusSticker;
 var gFocusMode;
 var gIsStickerDrag;
 
@@ -101,19 +99,23 @@ function onAddSticker(elSticker, stickerId) {
     const imgWidth = elSticker.width
     const imgHeight = elSticker.height;
     //add curr sticker to model
-    addSticker(stickerId, imgWidth, imgHeight);
+    //add sticker and update width and height
+    addSticker(stickerId, elSticker.width, elSticker.height);
     //draw sticker to cnavas
     drawSticker(stickerId);
 }
-
+// context.drawImage(img, sx, sy, swidth, sheight, x, y, width, height);
 
 function drawSticker(stickerId) {
     const sticker = getStickerById(stickerId);
+    console.log('sticker found:', sticker);
+    console.log(sticker.stickerWidth, sticker.stickerHeight);
     console.log('drawed sticker with id of:', sticker);
     var img = new Image()
     img.src = `imgs/stickers/${sticker.url}.png`;
     img.onload = () => {
-        gCtx.drawImage(img, sticker.coords.x, sticker.coords.y)
+        // gCtx.drawImage(img, sticker.coords.x, sticker.coords.y, sticker.stickerWidth, sticker.stickerHeight)
+        gCtx.drawImage(img, sticker.coords.x, sticker.coords.y, sticker.stickerWidth, sticker.stickerHeight)
     }
 }
 
@@ -246,7 +248,13 @@ function onTxtChange(elInput) {
 function onManageFontSize(diff) {
     const meme = getCurrMeme();
     //change fontsize on service
-    manageFontSize(meme.selectedLineIdx, diff);
+    if (gFocusMode === 'line') {
+        manageFontSize(meme.selectedLineIdx, diff);
+    } else {
+        console.log('activate sticker resize');
+        manageStickerSize(diff);
+        // drawStickers();
+    }
     renderCanvas()
 }
 
@@ -363,7 +371,6 @@ function onGetLineFocused(ev) {
     if (lineIdx !== -1) {
         meme.selectedLineIdx = lineIdx;
         document.querySelector('.add-txt').value = meme.lines[lineIdx].txt;
-        gFocusLine = lineIdx;
         gFocusMode = 'line'
     }
 
@@ -390,17 +397,16 @@ function onFocusSticker(ev) {
     const x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
     const y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
     const stickerIdx = meme.stickers.findIndex(sticker => {
-        console.log(`OffsetX: ${x}, offsetY: ${y}`)
-        console.log('sticker width:', sticker.stickerWidth);
-        console.log('sticker height:', sticker.stickerHeight);
-        console.log(`sticker coords on canvas: (${sticker.coords.x},${sticker.coords.y})`)
-        console.log('isStickerClicked?:', x > sticker.coords.x && x < sticker.coords.x + sticker.stickerWidth && y < sticker.coords.y && y > sticker.coords.y - sticker.stickerHeight);
+        // console.log(`OffsetX: ${x}, offsetY: ${y}`)
+        // console.log('sticker width:', sticker.stickerWidth);
+        // console.log('sticker height:', sticker.stickerHeight);
+        // console.log(`sticker coords on canvas: (${sticker.coords.x},${sticker.coords.y})`)
+        // console.log('isStickerClicked?:', x > sticker.coords.x && x < sticker.coords.x + sticker.stickerWidth && y < sticker.coords.y && y > sticker.coords.y - sticker.stickerHeight);
         return x > sticker.coords.x && x < sticker.coords.x + sticker.stickerWidth && y - sticker.stickerHeight < sticker.coords.y && y > sticker.coords.y - sticker.stickerHeight;
     })
     console.log('sticker idx:', stickerIdx);
     if (stickerIdx !== -1) {
         meme.selectedStickerIdx = stickerIdx;
-        gFocusSticker = stickerIdx;
         gFocusMode = 'sticker'
         // console.log('sticker idx:', stickerIdx);
     }
@@ -443,7 +449,6 @@ function onDragLine(ev) {
     // console.log(rect);
     var x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
     var y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
-    console.log(`focus line: ${gFocusLine}, sticker focus:${gFocusSticker}`);
     if (gFocusMode === 'line') {
         dragLine(x, y);
     } else if (gFocusMode === 'sticker') {

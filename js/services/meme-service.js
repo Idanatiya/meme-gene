@@ -97,6 +97,8 @@ function switchLines() {
     else gMeme.selectedLineIdx += 1;
 }
 
+// context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
+
 function addLine() {
     if (gMeme.lines.length === 0) gMeme.lines.push(_createLine(0, 40));
     else if (gMeme.lines.length === 1) gMeme.lines.push(_createLine(0, 330));
@@ -107,8 +109,15 @@ function addLine() {
 }
 
 function addSticker(stickerId, stickerWidth, stickerHeight) {
+    if (gMeme.selectedLineIdx === gMeme.stickers.length) gMeme.selectedStickerIdx = 0;
+    else gMeme.selectedStickerIdx += 1;
+    console.log(`On add sticker service,  adding : ${stickerWidth},${stickerHeight}`)
     const sticker = getStickerById(stickerId);
-    gMeme.stickers.push({ ...sticker, stickerWidth, stickerHeight });
+    sticker.stickerWidth = stickerWidth;
+    sticker.stickerHeight = stickerHeight
+    console.log('STICKER IS:', sticker);
+    gMeme.stickers.push(sticker);
+    // gMeme.stickers.push({ ...sticker, stickerWidth, stickerHeight });
 }
 
 
@@ -143,6 +152,14 @@ function manageFontSize(selectedLineIdx, diff) {
     gMeme.lines[selectedLineIdx].size += diff;
     console.log(gMeme.lines[selectedLineIdx].size)
 }
+
+function manageStickerSize(diff) {
+    // console.log('got to here', gMeme.stickers[selectedLineIdx].stickerHeight);
+    gMeme.stickers[gMeme.selectedStickerIdx].stickerWidth += diff;
+    gMeme.stickers[gMeme.selectedStickerIdx].stickerHeight += diff;
+}
+// gMeme.stickers[selectedLineIdx].stickerWidth += diff;
+//     gMeme.stickers[selectedLineIdx].stickerHeight += diff;
 
 
 
@@ -187,7 +204,6 @@ function _createLine(x, y) {
 }
 
 //add line to model
-
 function _createImgs() {
     let memeImgs;
     memeImgs = [];
