@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/5e621eabb9.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="imgs/assets/logo.png">
+    <link rel="icon" href="imgs/assets/pepe-icon.png">
     <title>Meme Generator</title>
 </head>
+
 
 <body onload="onInit()" onresize="resizeCanvas()">
     <div class="screen" onclick="toggleMenu()"></div>
@@ -26,8 +27,15 @@
     </header>
     <div class="img-gallery-container">
         <section class="filter-section">
-            <input type="text" name="filterInput" placeholder="Enter search keyword..."
-                oninput="onSetSearchTerm(this.value)" class="" />
+            <input type="text" list="keywords" name="filterInput" placeholder="Enter search keyword..."
+                oninput="onSetSearchTerm(this.value)" id="keyword" />
+            <datalist id="keywords">
+                <option value="dogs">
+                <option value="cute">
+                <option value="funny">
+                <option value="movie">
+            </datalist>
+
             <ul class="keyword-list flex clean-list"></ul>
         </section>
         <div class="grid-container"></div>
@@ -135,7 +143,6 @@
     </footer>
 
     <script src="js/services/util-service.js"></script>
-    <script src="js/services/upload-service.js"></script>
     <script src="js/services/storage-service.js"></script>
     <script src="js/services/meme-service.js"></script>
     <script src="js/services/meme-service.js"></script>

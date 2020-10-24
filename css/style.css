@@ -258,6 +258,7 @@ select[name="font-family-select"] {
 /*componenets*/
 canvas {
     border: 2px solid black;
+    cursor: pointer;
 }
 
 .main-header {
