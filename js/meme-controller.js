@@ -164,10 +164,9 @@ function onDownloadCanvas(elLink) {
     const currStickerIdx = meme.selectedStickerIdx;
     console.log('idx:', currSelectedIdx);
 
-    //put the selected idx to imaginary one for few secs
+    //put the selected idx to imaginary one for few secs and render to update the canvav
     meme.selectedLineIdx = 50;
     meme.selectedStickerIdx = 50;
-
     renderCanvas();
     setTimeout(() => {
         const data = elCanvas.toDataURL('image/png');
@@ -189,7 +188,6 @@ function showAlert() {
     }, 1500)
 }
 
-//10% working
 
 function onManageFontSize(diff) {
     const meme = getCurrMeme();
@@ -217,6 +215,7 @@ function onChangeLineProp(prop, value) {
     changeLineProp(prop, value);
     renderCanvas();
 }
+
 
 function onManageAlignment(direction) {
     const meme = getCurrMeme();
@@ -391,6 +390,11 @@ function onStartDrag(ev) {
     var rect = document.querySelector('#my-canvas').getBoundingClientRect();
     const x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
     const y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
+    // const selectedLine = getCurrLine()
+    // if (gFocusMode === 'line') {
+    //     console.log('expirment:', x + gCtx.measureText(selectedLine.txt).width / 2)
+    //     gCtx.moveTo(x + gCtx.measureText(selectedLine.txt).width / 2, y)
+    // }
     gCtx.moveTo(x, y);
 }
 
@@ -401,11 +405,19 @@ function onDragLine(ev) {
     var rect = document.querySelector('#my-canvas').getBoundingClientRect();
     var x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
     var y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
+    console.log('X:', x, 'Y:', y);
     if (gFocusMode === 'line') {
-        dragLine(x, y);
+        const selectedLine = getCurrLine();
+        const xCenterDragLine = x - gCtx.measureText(selectedLine.txt).width / 2;
+        const yCenterDragLine = y + 30
+        console.log('expirment:', x + gCtx.measureText(selectedLine.txt).width / 2)
+        dragLine(xCenterDragLine, yCenterDragLine);
     } else if (gFocusMode === 'sticker') {
+        const selectedSticker = getCurrSticker();
+        const xCenterDragSticker = x - selectedSticker.stickerWidth / 2;
+        const yCenterDragSticker = y - 20;
         console.log('rendring drag stickers');
-        dragSticker(x, y);
+        dragSticker(xCenterDragSticker, yCenterDragSticker);
     }
     renderCanvas();
 }
