@@ -27,15 +27,19 @@ function init() {
 }
 
 
+function getCurrLine() {
+    return gMeme.lines[gMeme.selectedLineIdx];
+}
+
 function dragLine(x, y) {
-    gMeme.lines[gMeme.selectedLineIdx].coords.x = x;
-    gMeme.lines[gMeme.selectedLineIdx].coords.y = y;
+    getCurrLine().coords.x = x;
+    getCurrLine().coords.y = y;
 }
 
 function dragSticker(x, y) {
     console.log('in service:', x)
     console.log('in service:', y)
-    gMeme.stickers[gMeme.selectedStickerIdx].coords.x = x
+    gMeme.stickers[gMeme.selectedStickerIdx].coords.x = x;
     gMeme.stickers[gMeme.selectedStickerIdx].coords.y = y;
 }
 
@@ -74,19 +78,19 @@ function deleteSticker() {
 
 
 function changeColor(color) {
-    gMeme.lines[gMeme.selectedLineIdx].color = color;
+    getCurrLine().color = color;
 }
 function changeOutline(color) {
-    gMeme.lines[gMeme.selectedLineIdx].outline = color;
+    getCurrLine().outline = color;
 }
 
 function setFontFamily(fontName) {
     console.log('getting from controller!', fontName)
-    gMeme.lines[gMeme.selectedLineIdx].font = fontName;
+    getCurrLine().font = fontName;
 }
 
 function manageAlignment(direction) {
-    gMeme.lines[gMeme.selectedLineIdx].align = direction;
+    getCurrLine().coords.x = direction;
 }
 
 function switchLines() {

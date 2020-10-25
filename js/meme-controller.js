@@ -1,7 +1,7 @@
 'use strict';
 console.log('Js is running!');
 
-var gCanvas;
+var elCanvas;
 var gCtx;
 var gIsDrag;
 var gFocusMode;
@@ -15,18 +15,18 @@ function onInit() {
     renderImgs();
     renderKeyWords();
     renderStickers();
-    gCanvas = document.querySelector('#my-canvas');
-    gCtx = gCanvas.getContext('2d');
+    elCanvas = document.querySelector('#my-canvas');
+    gCtx = elCanvas.getContext('2d');
 }
 
 
 function resizeCanvas() {
     if (window.innerWidth < 720) {
-        gCanvas.width = 300;
-        gCanvas.height = 300;
+        elCanvas.width = 300;
+        elCanvas.height = 300;
     } else {
-        gCanvas.width = 600;
-        gCanvas.height = 600;
+        elCanvas.width = 600;
+        elCanvas.height = 600;
     }
 
 }
@@ -147,7 +147,7 @@ function onSetSearchTerm(searchTerm) {
 
 
 function onSaveMeme() {
-    const imgData = gCanvas.toDataURL('image/png');
+    const imgData = elCanvas.toDataURL('image/png');
     console.log('got here')
     saveCanvas(imgData);
     showAlert();
@@ -163,7 +163,7 @@ function showAlert() {
 }
 
 function onDownloadCanvas(elLink) {
-    const data = gCanvas.toDataURL('image/png');
+    const data = elCanvas.toDataURL('image/png');
     elLink.href = data;
 }
 
@@ -204,7 +204,19 @@ function onChangeOutline(color) {
 
 
 function onManageAlignment(direction) {
-    manageAlignment(direction)
+    const meme = getCurrMeme();
+    const txtWidth = gCtx.measureText(meme.lines[meme.selectedLineIdx].txt).width;
+    switch (direction) {
+        case 'left':
+            manageAlignment(elCanvas.width - txtWidth);
+            break;
+        case 'center':
+            manageAlignment(elCanvas.width / 2);
+            break;
+        case 'right':
+            manageAlignment(0)
+            break;
+    }
     renderCanvas();
 }
 
@@ -259,7 +271,7 @@ function renderCanvas() {
     img.onload = () => {
         resizeCanvas()
         drawStickers();
-        gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
+        gCtx.drawImage(img, 0, 0, elCanvas.width, elCanvas.height)
         drawLines();
     }
 }
@@ -311,7 +323,7 @@ function loadImgToCanvas(imgUrl) {
     img.src = `${imgUrl}`;
     img.onload = () => {
         gFocusMode = 'line';
-        gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
+        gCtx.drawImage(img, 0, 0, elCanvas.width, elCanvas.height);
         renderCanvas()
     }
 }
@@ -409,13 +421,13 @@ function onResizeCanvas(ev) {
     console.log(ev);
     var elContainer = document.querySelector('.canvas-container');
     console.log(elContainer.offsetWidth);
-    gCanvas.width = elContainer.offsetWidth;
-    gCanvas.height = elContainer.offsetHeight;
+    elCanvas.width = elContainer.offsetWidth;
+    elCanvas.height = elContainer.offsetHeight;
 }
 
 
 function toggleMenu() {
-    document.body.classList.toggle('change');
+    document.body.classList.toggle('menu-open');
 }
 
 
