@@ -28,7 +28,6 @@ function resizeCanvas() {
         elCanvas.width = 600;
         elCanvas.height = 600;
     }
-
 }
 
 

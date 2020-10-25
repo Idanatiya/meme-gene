@@ -248,6 +248,7 @@ select[name="font-family-select"] {
 
 .text-info {
     margin-inline-start: 46px;
+    margin-inline-end: 46px;
 }
 
 /*footer*/
