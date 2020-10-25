@@ -13,11 +13,12 @@ const STORAGE_KEY = 'memeDB';
 var gSearchBy;
 var gSavedMemes;
 
-
 var gStickers;
 
 var gPageIdx = 0;
 var PAGE_SIZE = 4;
+
+
 function init() {
     _createImgs();
     _createStickers();

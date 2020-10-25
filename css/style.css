@@ -96,6 +96,8 @@ a {
     align-items: center;
 }
 
+
+/*save meme grid*/
 .meme-grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -109,16 +111,15 @@ a {
     flex: 1;
 }
 
-
-
 .meme-card {
     height: 350px;
     margin-inline-start: 20px;
+    margin-inline-end: 20px;
 }
 
 .meme-card img {
     object-fit: cover;
-    width: 350px;
+    width: 300px;
 }
 
 .card-img {
@@ -203,15 +204,8 @@ select[name="font-family-select"] {
 }
 
 /*position labels*/
-.font-list-color-container .choose-color {
-    cursor: pointer;
-    position: absolute;
-    top: 17px;
-    left: 0;
-    opacity: 0;
-}
-
-.font-list-color-container .choose-outline {
+.choose-color,
+.choose-outline {
     cursor: pointer;
     position: absolute;
     top: 17px;
@@ -258,13 +252,6 @@ select[name="font-family-select"] {
     height: 220px;
 }
 
-.footer-container {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-
-
 /*componenets*/
 canvas {
     border: 2px solid black;
@@ -272,7 +259,6 @@ canvas {
 }
 
 .main-header {
-    /* background-color: #fafafa; */
     background-color: #0b132b;
     color: white;
 }
@@ -284,21 +270,6 @@ canvas {
     display: none;
 }
 
-.fa-cloud-download-alt,
-.fa-save {
-    color: black;
-    font-size: 40px;
-    margin-inline-start: 10px;
-}
-
-.fa-trash-alt {
-    color: red;
-    font-size: 35px;
-}
-
-.fa-bars {
-    color: white;
-}
 
 .delete-container {
     display: flex;
@@ -671,6 +642,21 @@ body.menu-open .screen {
         margin-inline-start: 6px;
         margin-inline-end: 6px;
     }
+}
 
+/*Icons*/
+.fa-cloud-download-alt,
+.fa-save {
+    color: black;
+    font-size: 40px;
+    margin-inline-start: 10px;
+}
 
+.fa-trash-alt {
+    color: red;
+    font-size: 35px;
+}
+
+.fa-bars {
+    color: white;
 }
