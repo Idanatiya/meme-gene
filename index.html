@@ -106,7 +106,7 @@
                 </button>
             </div>
             <div class="font-list-color-container">
-                <select name="font-family-select" onchange="onSetFontFamily(this.value)">
+                <select name="font-family-select" onchange="onChangeLineProp('font',this.value)">
                     <option style="font-family: Impact;" value="Impact">Impact</option>
                     <option style="font-family: cursive;" value="cursive">Cursive</option>
                     <option style="font-family: arial;" value="Arial">Arial</option>
@@ -115,12 +115,13 @@
                 <label for="choose-outline">
                     <img src="imgs/assets/outline.png" />
                     <input type="color" id="choose-outline" class="choose-outline"
-                        oninput="onChangeOutline(this.value)">
+                        oninput="onChangeLineProp('outline',this.value)">
                 </label>
 
                 <label for="choose-color">
                     <img src="imgs/assets/palette.png" class="palette-img" />
-                    <input type="color" id="choose-color" class="choose-color" onchange="onChangeColor(this.value)">
+                    <input type="color" id="choose-color" class="choose-color"
+                        oninput="onChangeLineProp('color',this.value)">
                 </label>
             </div>
             <div class="stickers-container">

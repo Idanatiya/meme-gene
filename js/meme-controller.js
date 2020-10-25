@@ -94,6 +94,7 @@ function onAddSticker(elSticker, stickerId) {
     gFocusMode = 'sticker';
     addSticker(stickerId, elSticker.width, elSticker.height);
     drawSticker(stickerId);
+    renderCanvas();
 }
 
 function drawSticker(stickerId) {
@@ -134,10 +135,41 @@ function onSetSearchTerm(searchTerm) {
 
 
 function onSaveMeme() {
-    const imgData = elCanvas.toDataURL('image/png');
-    console.log('got here')
-    saveCanvas(imgData);
+    removeFocusBoxOnSave();
     showAlert();
+}
+
+function removeFocusBoxOnSave() {
+    const meme = getCurrMeme();
+    const currSelectedIdx = getCurrSelectedIdx();
+    meme.selectedLineIdx = 10;
+    console.log('idx changed to:', meme.selectedLineIdx);
+    renderCanvas();
+    setTimeout(() => {
+        const imgData = elCanvas.toDataURL('image/png');
+        saveCanvas(imgData);
+        meme.selectedLineIdx = currSelectedIdx;
+        renderCanvas()
+    }, 100)
+    console.log('idx changed to:', meme.selectedLineIdx);
+}
+
+
+function onDownloadCanvas(elLink) {
+    const meme = getCurrMeme();
+    const currSelectedIdx = getCurrSelectedIdx()
+    console.log('idx:', currSelectedIdx);
+    meme.selectedLineIdx = 10;
+    renderCanvas();
+    setTimeout(() => {
+        const data = elCanvas.toDataURL('image/png');
+        elLink.href = data;
+        meme.selectedLineIdx = currSelectedIdx;
+        console.log('exetcued');
+        //Render the rectangle again
+        renderCanvas()
+    }, 100)
+    console.log('idx:', getCurrSelectedIdx())
 }
 
 function showAlert() {
@@ -146,13 +178,9 @@ function showAlert() {
     setTimeout(() => {
         elAlert.style.display = 'none';
     }, 1500)
-
 }
 
-function onDownloadCanvas(elLink) {
-    const data = elCanvas.toDataURL('image/png');
-    elLink.href = data;
-}
+//10% working
 
 function onManageFontSize(diff) {
     const meme = getCurrMeme();
@@ -173,22 +201,13 @@ function onDeleteLine() {
     renderCanvas();
 }
 
-function onSetFontFamily(fontName) {
-    setFontFamily(fontName)
+
+function onChangeLineProp(prop, value) {
+    console.log('prop:', prop);
+    console.log('value:', value);
+    changeLineProp(prop, value);
     renderCanvas();
 }
-
-
-function onChangeColor(color) {
-    changeColor(color)
-    renderCanvas();
-}
-
-function onChangeOutline(color) {
-    changeOutline(color)
-    renderCanvas();
-}
-
 
 function onManageAlignment(direction) {
     const meme = getCurrMeme();
@@ -253,18 +272,20 @@ function renderCanvas() {
     const meme = getCurrMeme();
     const imgSelected = getImgById(meme.selectedImgId);
     const img = new Image();
+    img.src = `${imgSelected.url}`;
     img.onload = () => {
-        drawStickers();
         gCtx.drawImage(img, 0, 0, elCanvas.width, elCanvas.height)
         drawLines();
+        drawStickers();
     }
-    img.src = `${imgSelected.url}`;
 }
 
 function drawStickers() {
+    const meme = getCurrMeme();
     const memeStickers = getMemeStickers();
-    memeStickers.forEach(sticker => {
+    memeStickers.forEach((sticker, idx) => {
         drawSticker(sticker.id);
+        if (idx === meme.selectedStickerIdx && gFocusMode === 'sticker') drawStickerRect(sticker.coords.x, sticker.coords.y)
     })
 }
 
@@ -274,7 +295,7 @@ function drawLines() {
     meme.lines.forEach((line, idx) => {
         // console.log(`painting rect in pos: ${line.coords.x},${line.coords.y}`);
         drawText(line)
-        if (idx === meme.selectedLineIdx) drawRect(line.coords.x, line.coords.y)
+        if (idx === meme.selectedLineIdx && gFocusMode === 'line') drawRect(line.coords.x, line.coords.y)
     })
 }
 
@@ -295,10 +316,24 @@ function drawRect(x, y) {
     const yRectSize = -meme.lines[meme.selectedLineIdx].size;
     gCtx.beginPath();
     gCtx.lineWidth = 4;
-    gCtx.fillStyle = '#ffffff60'
+    gCtx.fillStyle = '#ffffff60';
     gCtx.strokeRect(x, y, gCtx.measureText(memeTxt).width + 8, yRectSize + 4);
     gCtx.fillRect(x, y, gCtx.measureText(memeTxt).width + 8, yRectSize + 4);
+
 }
+
+
+function drawStickerRect(x, y) {
+    const currStickerSelected = getCurrSticker();
+    gCtx.beginPath();
+    gCtx.lineWidth = 4;
+    gCtx.fillStyle = '#ffffff60';
+    gCtx.strokeRect(x, y, currStickerSelected.stickerWidth + 8, currStickerSelected.stickerHeight);
+    gCtx.fillRect(x, y, currStickerSelected.stickerWidth + 8, currStickerSelected.stickerHeight);
+
+}
+
+
 
 function loadMemeToCanvas(imgUrl) {
     renderStickers();
@@ -374,6 +409,15 @@ function onStopDrag(ev) {
 }
 
 
+
+function toggleMenu() {
+    document.body.classList.toggle('menu-open');
+}
+
+
+
+
+
 function onResizeCanvas(ev) {
     console.log(ev);
     var elContainer = document.querySelector('.canvas-container');
@@ -382,10 +426,41 @@ function onResizeCanvas(ev) {
     elCanvas.height = elContainer.offsetHeight;
     renderCanvas();
 }
+// function onSetFontFamily(fontName) {
+//     setFontFamily(fontName)
+//     renderCanvas();
+// }
 
 
-function toggleMenu() {
-    document.body.classList.toggle('menu-open');
-}
+// function onChangeColor(color) {
+//     changeColor(color)
+//     renderCanvas();
+// }
+
+// function onChangeOutline(color) {
+//     changeOutline(color)
+//     renderCanvas();
+// }
 
 
+// function drawRect(x, y) {
+//     console.log(`getting: ${x},${y} `);
+//     let modeSelectedIdx;
+//     gCtx.beginPath();
+//     const meme = getCurrMeme();
+//     if (gFocusMode === 'line') {
+//         modeSelectedIdx = meme.lines[meme.selectedLineIdx];
+//         const memeTxt = modeSelectedIdx.txt;
+//         const yRectSize = -modeSelectedIdx.size;
+//         gCtx.lineWidth = 4;
+//         gCtx.fillStyle = '#ffffff60';
+//         gCtx.strokeRect(x, y, gCtx.measureText(memeTxt).width + 8, yRectSize + 4);
+//         gCtx.fillRect(x, y, gCtx.measureText(memeTxt).width + 8, yRectSize + 4);
+//     } else if (gFocusMode === 'sticker') {
+//         modeSelectedIdx = meme.stickers[meme.selectedStickerIdx];
+//         gCtx.lineWidth = 4;
+//         gCtx.strokeRect(x, y, modeSelectedIdx.stickerWidth + 8, modeSelectedIdx.stickerHeight);
+//     }
+//     console.log(modeSelectedIdx);
+//     console.log('FOCUS MODE:', gFocusMode);
+// }

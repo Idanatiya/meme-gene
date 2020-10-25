@@ -32,6 +32,10 @@ function getCurrLine() {
     return gMeme.lines[gMeme.selectedLineIdx];
 }
 
+function getCurrSticker() {
+    return gMeme.stickers[gMeme.selectedStickerIdx];
+}
+
 function dragLine(x, y) {
     getCurrLine().coords.x = x;
     getCurrLine().coords.y = y;
@@ -78,23 +82,23 @@ function deleteSticker() {
 }
 
 
-function changeColor(color) {
-    getCurrLine().color = color;
-}
+// function changeColor(color) {
+//     getCurrLine().color = color;
+// }
 
 function changeLineProp(prop, val) {
-    getCurrLine()[prop] = val
+    getCurrLine()[prop] = val;
 }
 
 
-function changeOutline(color) {
-    getCurrLine().outline = color;
-}
+// function changeOutline(color) {
+//     getCurrLine().outline = color;
+// }
 
-function setFontFamily(fontName) {
-    console.log('getting from controller!', fontName)
-    getCurrLine().font = fontName;
-}
+// function setFontFamily(fontName) {
+//     console.log('getting from controller!', fontName)
+//     getCurrLine().font = fontName;
+// }
 
 function manageAlignment(direction) {
     getCurrLine().coords.x = direction;
@@ -138,7 +142,7 @@ function getMemeStickers() {
 }
 
 function getCurrSelectedIdx() {
-    return gMeme.selectedLineIdx
+    return gMeme.selectedLineIdx;
 }
 
 
@@ -167,9 +171,12 @@ function manageStickerSize(diff) {
 
 function getImgsForDisplay() {
     if (!gSearchBy) return gImgs;
-    var imgs = gImgs.filter(img => img.keywords.includes(gSearchBy))
+    var imgs = gImgs.filter(img => {
+        return img.keywords.some(keyword => keyword.includes(gSearchBy))
+    })
+
+    //add 4 to gKeywords to the specfied key
     gKeywords[gSearchBy] += 4;
-    console.log(imgs);
     return imgs;
 }
 
