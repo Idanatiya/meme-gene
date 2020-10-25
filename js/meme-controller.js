@@ -5,7 +5,6 @@ var elCanvas;
 var gCtx;
 var gIsDrag;
 var gFocusMode;
-var gIsStickerDrag;
 
 
 
@@ -28,6 +27,7 @@ function resizeCanvas() {
         elCanvas.width = 600;
         elCanvas.height = 600;
     }
+
 }
 
 
@@ -94,7 +94,6 @@ function renderStickers() {
                     <img onclick="onAddSticker(this,'${sticker.id}')" src="imgs/stickers/${sticker.url}.png" alt="sticker" />
                 </li>`
     })
-
     document.querySelector('.stickers-list').innerHTML = strHtmls.join('');
 }
 
@@ -107,9 +106,6 @@ function onAddSticker(elSticker, stickerId) {
 
 function drawSticker(stickerId) {
     const sticker = getStickerById(stickerId);
-    console.log('sticker found:', sticker);
-    console.log(sticker.stickerWidth, sticker.stickerHeight);
-    console.log('drawed sticker with id of:', sticker);
     var img = new Image()
     img.src = `imgs/stickers/${sticker.url}.png`;
     img.onload = () => {
@@ -135,7 +131,7 @@ function onSelectImg(imgId) {
     toggleElement(elEditorContainer, 'hide')
     const img = getImgById(imgId);
     setSelectedMeme(imgId)
-    loadImgToCanvas(img.url)
+    loadMemeToCanvas(img.url)
 }
 
 
@@ -266,13 +262,13 @@ function renderCanvas() {
     const meme = getCurrMeme();
     const imgSelected = getImgById(meme.selectedImgId);
     const img = new Image();
-    img.src = `${imgSelected.url}`;
     img.onload = () => {
         resizeCanvas()
         drawStickers();
         gCtx.drawImage(img, 0, 0, elCanvas.width, elCanvas.height)
         drawLines();
     }
+    img.src = `${imgSelected.url}`;
 }
 
 
@@ -290,19 +286,19 @@ function drawLines() {
     meme.lines.forEach((line, idx) => {
         console.log('line:', line)
         console.log(`painting rect in pos: ${line.coords.x},${line.coords.y}`);
-        drawText(line.txt, line.size, line.font, line.color, line.outline, line.align, line.coords.x, line.coords.y)
+        drawText(line)
         if (idx === meme.selectedLineIdx) drawRect(line.coords.x, line.coords.y)
     })
 }
 
-function drawText(txt, size, fontName, color, outlineColor, align, x, y) {
+function drawText(line) {
     gCtx.lineWidth = 2;
-    gCtx.font = `${size}px ${fontName}`;
-    gCtx.textAlign = align;
-    gCtx.fillStyle = color;
-    gCtx.fillText(txt, x, y)
-    gCtx.strokeStyle = outlineColor;
-    gCtx.strokeText(txt, x, y)
+    gCtx.font = `${line.size}px ${line.font}`;
+    gCtx.textAlign = line.align;
+    gCtx.fillStyle = line.color;
+    gCtx.fillText(line.txt, line.coords.x, line.coords.y)
+    gCtx.strokeStyle = line.outline;
+    gCtx.strokeText(line.txt, line.coords.x, line.coords.y)
     gCtx.stroke();
 }
 
@@ -317,7 +313,7 @@ function drawRect(x, y) {
     gCtx.fillRect(x, y, gCtx.measureText(memeTxt).width + 8, yRectSize + 4);
 }
 
-function loadImgToCanvas(imgUrl) {
+function loadMemeToCanvas(imgUrl) {
     const img = new Image();
     img.src = `${imgUrl}`;
     img.onload = () => {
@@ -327,7 +323,7 @@ function loadImgToCanvas(imgUrl) {
     }
 }
 
-function onGetLineFocused(ev) {
+function onCanvasClicked(ev) {
     var rect = document.querySelector('#my-canvas').getBoundingClientRect();
     const x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
     const y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
@@ -337,53 +333,27 @@ function onGetLineFocused(ev) {
         const txtHeight = line.size;
         return x > line.coords.x && x < line.coords.x + txtWidth && (y < line.coords.y && y > line.coords.y - txtHeight);
     })
-    if (lineIdx !== -1) {
-        meme.selectedLineIdx = lineIdx;
-        document.querySelector('.add-txt').value = meme.lines[lineIdx].txt;
-        gFocusMode = 'line'
-    }
-    return lineIdx;
-}
-
-
-
-
-function onFocusSticker(ev) {
-    const meme = getCurrMeme();
-    if (meme.stickers.length === 0) {
-        console.log('MEME STICKERS ARRAY IS EMPTY!@')
-        return;
-    }
-    var rect = document.querySelector('#my-canvas').getBoundingClientRect();
-    const x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
-    const y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
     const stickerIdx = meme.stickers.findIndex(sticker => {
         return x > sticker.coords.x && x < sticker.coords.x + sticker.stickerWidth &&
             y - sticker.stickerHeight < sticker.coords.y && y > sticker.coords.y - sticker.stickerHeight;
     })
-    console.log('sticker idx:', stickerIdx);
-    if (stickerIdx !== -1) {
+    console.log(lineIdx, stickerIdx);
+    if (lineIdx !== -1) {
+        meme.selectedLineIdx = lineIdx;
+        document.querySelector('.add-txt').value = meme.lines[lineIdx].txt;
+        gFocusMode = 'line'
+    } else if (stickerIdx !== -1) {
         meme.selectedStickerIdx = stickerIdx;
         gFocusMode = 'sticker'
     }
 }
-document.querySelector('#my-canvas').addEventListener('click', ev => {
-    onFocusSticker(ev);
-});
-
 
 function onStartDrag(ev) {
     ev.preventDefault();
     gCtx.beginPath();
     console.log('event:', ev);
-
     gIsDrag = true;
-    gIsStickerDrag = true;
-    const isLineExists = onGetLineFocused(ev);
-    if (isLineExists === -1) {
-        console.log('not drag an drop!');
-        return;
-    }
+    onCanvasClicked(ev);
     var rect = document.querySelector('#my-canvas').getBoundingClientRect();
     const x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
     const y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
@@ -394,7 +364,6 @@ function onStartDrag(ev) {
 function onDragLine(ev) {
     ev.preventDefault();
     if (!gIsDrag) return;
-    if (!gIsStickerDrag) return;
     var rect = document.querySelector('#my-canvas').getBoundingClientRect();
     var x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
     var y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
@@ -410,7 +379,6 @@ function onDragLine(ev) {
 function onStopDrag(ev) {
     ev.preventDefault();
     gIsDrag = false;
-    gIsStickerDrag = false;
     console.log('dragging ended:', gIsDrag);
     gCtx.closePath();
 }

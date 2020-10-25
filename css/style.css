@@ -4,6 +4,7 @@
 }
 
 
+/*Basic*/
 * {
     box-sizing: border-box;
 }
@@ -201,6 +202,7 @@ select[name="font-family-select"] {
     width: 56px;
 }
 
+/*position labels*/
 .font-list-color-container .choose-color {
     cursor: pointer;
     position: absolute;
@@ -217,7 +219,7 @@ select[name="font-family-select"] {
     opacity: 0;
 }
 
-
+/*stickers container*/
 .stickers-container {
     margin: 0 auto;
     width: 432px;
@@ -233,9 +235,6 @@ select[name="font-family-select"] {
 .meme-tab-container {
     flex: 1;
 }
-
-
-
 
 
 /*info container*/
