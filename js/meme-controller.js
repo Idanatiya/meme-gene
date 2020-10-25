@@ -141,14 +141,17 @@ function onSaveMeme() {
 
 function removeFocusBoxOnSave() {
     const meme = getCurrMeme();
-    const currSelectedIdx = getCurrSelectedIdx();
-    meme.selectedLineIdx = 10;
+    const currLineIdx = meme.selectedLineIdx;
+    const currStickerIdx = meme.selectedStickerIdx;
+    meme.selectedLineIdx = 50;
+    meme.selectedStickerIdx = 50;
     console.log('idx changed to:', meme.selectedLineIdx);
     renderCanvas();
     setTimeout(() => {
         const imgData = elCanvas.toDataURL('image/png');
         saveCanvas(imgData);
-        meme.selectedLineIdx = currSelectedIdx;
+        meme.selectedLineIdx = currLineIdx;
+        meme.selectedStickerIdx = currStickerIdx;
         renderCanvas()
     }, 100)
     console.log('idx changed to:', meme.selectedLineIdx);
@@ -157,18 +160,24 @@ function removeFocusBoxOnSave() {
 
 function onDownloadCanvas(elLink) {
     const meme = getCurrMeme();
-    const currSelectedIdx = getCurrSelectedIdx()
+    const currSelectedIdx = getCurrSelectedIdx();
+    const currStickerIdx = meme.selectedStickerIdx;
     console.log('idx:', currSelectedIdx);
-    meme.selectedLineIdx = 10;
+
+    //put the selected idx to imaginary one for few secs
+    meme.selectedLineIdx = 50;
+    meme.selectedStickerIdx = 50;
+
     renderCanvas();
     setTimeout(() => {
         const data = elCanvas.toDataURL('image/png');
         elLink.href = data;
         meme.selectedLineIdx = currSelectedIdx;
+        meme.selectedStickerIdx = currStickerIdx;
         console.log('exetcued');
         //Render the rectangle again
         renderCanvas()
-    }, 100)
+    }, 300)
     console.log('idx:', getCurrSelectedIdx())
 }
 
@@ -409,13 +418,9 @@ function onStopDrag(ev) {
 }
 
 
-
 function toggleMenu() {
     document.body.classList.toggle('menu-open');
 }
-
-
-
 
 
 function onResizeCanvas(ev) {
