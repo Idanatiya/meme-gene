@@ -81,6 +81,12 @@ function deleteSticker() {
 function changeColor(color) {
     getCurrLine().color = color;
 }
+
+function changeLineProp(prop, val) {
+    getCurrLine()[prop] = val
+}
+
+
 function changeOutline(color) {
     getCurrLine().outline = color;
 }
@@ -101,11 +107,8 @@ function switchLines() {
 
 
 function addLine() {
-    if (window.innerWidth < 540) {
-        setLinesInMobile();
-    } else {
-        setLinesInDesktop();
-    }
+    if (window.innerWidth < 540) setLinesInMobile();
+    else setLinesInDesktop();
 }
 
 function setLinesInDesktop() {
@@ -162,8 +165,6 @@ function manageStickerSize(diff) {
     gMeme.stickers[gMeme.selectedStickerIdx].stickerHeight += diff;
 }
 
-
-
 function getImgsForDisplay() {
     if (!gSearchBy) return gImgs;
     var imgs = gImgs.filter(img => img.keywords.includes(gSearchBy))
@@ -188,6 +189,8 @@ function saveCanvas(imgData) {
 
 
 function _createLine(x, y) {
+    const height = document.querySelector('canvas').offsetHeight;
+    console.log('height', height);
     return {
         txt: 'Enter Your Text',
         size: 40,
@@ -223,40 +226,29 @@ function _createImgs() {
     memeImgs.push(_createImg(19, 'meme-imgs/19.jpg', ['funny', 'cute']));
     memeImgs.push(_createImg(20, 'meme-imgs/20.jpg', ['funny', 'cute']));
     gImgs = memeImgs;
-
 }
-
 
 function _createMemeDb() {
     let memes = loadFromStorage(STORAGE_KEY);
-    if (!memes) {
-        memes = [];
-    }
+    if (!memes) memes = [];
     gSavedMemes = memes;
     _saveMemesToStorage()
 }
 
 
 function _createImg(id, url, keywords = []) {
-    return {
-        id,
-        url,
-        keywords
-    }
+    return { id, url, keywords }
 }
 
 
 function deleteMemes() {
     deleteFromStorage(STORAGE_KEY);
     init();
-
 }
 
 function _saveMemesToStorage() {
     saveToStorage(STORAGE_KEY, gSavedMemes)
-
 }
-
 
 //*****Stickers logic******///
 function getStickers() {
@@ -283,16 +275,13 @@ function prevPage() {
     console.log('page idx is now', gPageIdx);
 }
 
-
 function getStickerById(stickerId) {
     return gStickers.find(sticker => sticker.id === stickerId);
 }
 
 function _createStickers() {
     let stickers = [];
-    for (var i = 1; i <= 20; i++) {
-        stickers.push(_createSticker(i))
-    }
+    for (var i = 1; i <= 20; i++) stickers.push(_createSticker(i))
     gStickers = stickers;
 }
 

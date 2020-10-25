@@ -10,10 +10,8 @@ var gFocusMode;
 
 function onInit() {
     init();
-    onInitMemes();
     renderImgs();
     renderKeyWords();
-    renderStickers();
     elCanvas = document.querySelector('#my-canvas');
     gCtx = elCanvas.getContext('2d');
 }
@@ -27,12 +25,13 @@ function resizeCanvas() {
         elCanvas.width = 600;
         elCanvas.height = 600;
     }
-
+    console.log('RESIZING');
+    renderCanvas();
 }
 
 
-
 function onOpenMemeTab() {
+    renderMemes();
     const elImgsContainer = document.querySelector('.img-gallery-container');
     const elEditorContainer = document.querySelector('.meme-editor-container');
     const elMemeTabContainer = document.querySelector('.meme-tab-container');
@@ -40,41 +39,35 @@ function onOpenMemeTab() {
         toggleElement(elImgsContainer, 'hide')
         toggleElement(elMemeTabContainer, 'hide');
     }
-
-    else if (elImgsContainer.classList.contains('hide')) {
+    else {
         elEditorContainer.style.display = 'none';
         elMemeTabContainer.style.display = 'block';
-        onInitMemes();
+        renderMemes();
     }
 }
 
-
 function onNextPage() {
-    console.log('On Next page function')
     nextPage();
     renderStickers();
 }
 
 function onPrevPage() {
-    console.log('on Prev Page fucntiom');
     prevPage();
     renderStickers();
 }
-
-
-
 
 function renderImgs() {
     const elImgsContainer = document.querySelector('.grid-container');
     const imgs = getImgsForDisplay();
     const strHtmls = imgs.map(img => {
-        return `<div class="card" onclick="onSelectImg(${img.id})" data-imgId="${img.id}">
-        <img class="card-img" src="${img.url}"  />
+        return `
+        <div class="card" onclick="onSelectImg(${img.id})" data-imgId="${img.id}">
+            <img class="card-img" src="${img.url}"  />
         </div>
         `
     })
     elImgsContainer.innerHTML = strHtmls.join('');
-    if (!imgs.length) elImgsContainer.innerHTML = '<h1>We couldnt find a meme for your search</h1>'
+    if (!imgs.length) elImgsContainer.innerHTML = '<h1 class="flex justify-center">We couldnt find a meme for your search</h1>'
 
 }
 
@@ -96,7 +89,6 @@ function renderStickers() {
     })
     document.querySelector('.stickers-list').innerHTML = strHtmls.join('');
 }
-
 
 function onAddSticker(elSticker, stickerId) {
     gFocusMode = 'sticker';
@@ -216,7 +208,6 @@ function onManageAlignment(direction) {
 }
 
 
-
 function onAddLine() {
     gFocusMode = 'line';
     addLine();
@@ -263,15 +254,12 @@ function renderCanvas() {
     const imgSelected = getImgById(meme.selectedImgId);
     const img = new Image();
     img.onload = () => {
-        resizeCanvas()
         drawStickers();
         gCtx.drawImage(img, 0, 0, elCanvas.width, elCanvas.height)
         drawLines();
     }
     img.src = `${imgSelected.url}`;
 }
-
-
 
 function drawStickers() {
     const memeStickers = getMemeStickers();
@@ -284,8 +272,7 @@ function drawStickers() {
 function drawLines() {
     const meme = getCurrMeme();
     meme.lines.forEach((line, idx) => {
-        console.log('line:', line)
-        console.log(`painting rect in pos: ${line.coords.x},${line.coords.y}`);
+        // console.log(`painting rect in pos: ${line.coords.x},${line.coords.y}`);
         drawText(line)
         if (idx === meme.selectedLineIdx) drawRect(line.coords.x, line.coords.y)
     })
@@ -305,7 +292,7 @@ function drawText(line) {
 function drawRect(x, y) {
     const meme = getCurrMeme();
     const memeTxt = meme.lines[meme.selectedLineIdx].txt;
-    const yRectSize = -meme.lines[meme.selectedLineIdx].size
+    const yRectSize = -meme.lines[meme.selectedLineIdx].size;
     gCtx.beginPath();
     gCtx.lineWidth = 4;
     gCtx.fillStyle = '#ffffff60'
@@ -314,16 +301,19 @@ function drawRect(x, y) {
 }
 
 function loadMemeToCanvas(imgUrl) {
+    renderStickers();
     const img = new Image();
     img.src = `${imgUrl}`;
     img.onload = () => {
         gFocusMode = 'line';
         gCtx.drawImage(img, 0, 0, elCanvas.width, elCanvas.height);
-        renderCanvas()
+        resizeCanvas();
     }
 }
 
+
 function onCanvasClicked(ev) {
+    console.log('ev:', ev)
     var rect = document.querySelector('#my-canvas').getBoundingClientRect();
     const x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
     const y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
@@ -390,6 +380,7 @@ function onResizeCanvas(ev) {
     console.log(elContainer.offsetWidth);
     elCanvas.width = elContainer.offsetWidth;
     elCanvas.height = elContainer.offsetHeight;
+    renderCanvas();
 }
 
 

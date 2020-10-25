@@ -11,13 +11,28 @@
 </head>
 
 
-<body onload="onInit()" onresize="resizeCanvas()">
+<body onload="onInit()" onresize="resizeCanvas(event)">
+    <datalist id="keywords">
+        <option value="Dogs">
+        <option value="Cute">
+        <option value="Funny">
+        <option value="Movie">
+    </datalist>
+
+    <!-- SCREEN -->
     <div class="screen" onclick="toggleMenu()"></div>
+
+    <!-- HEADER -->
     <header class="main-header">
         <div class="brand-logo">
             <img src="imgs/assets/001.png" class="logo" alt="">
             <h3>Meme Generator</h3>
         </div>
+        <!-- <nav class="nav-links clean-list">
+            <a href="">Gallery</a>
+            <button onclick="onOpenMemeTab()">Memes</button>
+            <a href="#">About</a>
+        </nav> -->
         <ul class="nav-links clean-list">
             <li><a href="">Gallery</a></li>
             <li onclick="onOpenMemeTab()">Memes</li>
@@ -25,17 +40,12 @@
         </ul>
         <button class="toggle-btn" onclick="toggleMenu()"><i class="fas fa-bars fa-2x"></i></button>
     </header>
+
+    <!-- GALLERY -->
     <div class="img-gallery-container">
         <section class="filter-section">
             <input type="text" list="keywords" name="filterInput" placeholder="Enter search keyword..."
                 oninput="onSetSearchTerm(this.value)" id="keyword" />
-            <datalist id="keywords">
-                <option value="dogs">
-                <option value="cute">
-                <option value="funny">
-                <option value="movie">
-            </datalist>
-
             <ul class="keyword-list flex clean-list"></ul>
         </section>
         <div class="grid-container"></div>
@@ -48,13 +58,16 @@
         </section>
     </div>
 
+    <!-- EDITOR -->
     <div class="meme-editor-container hide">
+        <!-- CANVAS -->
         <div class="canvas-container">
             <canvas id="my-canvas" height="600" width="600" onclick="onCanvasClicked(event)"
                 onmousedown="onStartDrag(event)" onmouseup="onStopDrag(event)" onmousemove="onDragLine(event)"
                 ontouchstart="onStartDrag(event)" ontocuhend="onStopDrag(event)" ontouchmove="onDragLine(event)">
             </canvas>
         </div>
+        <!-- CONTROLS -->
         <div class="meme-controls">
             <input type="text" name="add-txt" class="add-txt" oninput="onTxtChange(this)"
                 placeholder="Enter text here..." />
@@ -94,14 +107,15 @@
             </div>
             <div class="font-list-color-container">
                 <select name="font-family-select" onchange="onSetFontFamily(this.value)">
-                    <option value="Impact">Impact</option>
-                    <option value="Arial">Arial</option>
+                    <option style="font-family: Impact;" value="Impact">Impact</option>
+                    <option style="font-family: cursive;" value="cursive">Cursive</option>
+                    <option style="font-family: arial;" value="Arial">Arial</option>
                 </select>
 
                 <label for="choose-outline">
                     <img src="imgs/assets/outline.png" />
                     <input type="color" id="choose-outline" class="choose-outline"
-                        onchange="onChangeOutline(this.value)">
+                        oninput="onChangeOutline(this.value)">
                 </label>
 
                 <label for="choose-color">
