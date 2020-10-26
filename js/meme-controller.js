@@ -344,15 +344,23 @@ function drawStickerRect(x, y) {
 
 
 function loadMemeToCanvas(imgUrl) {
+    console.log('img ur:', imgUrl);
     renderStickers();
     const img = new Image();
-    img.src = `${imgUrl}`;
-    img.onload = () => {
+    img.onload = function () {
+        const imgWidth = this.width;
+        const imgHeight = this.height;
+        console.log(`width and height: ${this.width}, ${this.height}`);
+        const calcCanvasHeight = (imgHeight * elCanvas.width) / imgWidth;
+        elCanvas.height = calcCanvasHeight;
+        console.log('canvas height:', elCanvas.height)
         gFocusMode = 'line';
-        gCtx.drawImage(img, 0, 0, elCanvas.width, elCanvas.height);
         resizeCanvas();
+        gCtx.drawImage(img, 0, 0, imgWidth, calcCanvasHeight);
     }
+    img.src = `${imgUrl}`;
 }
+
 
 
 function onCanvasClicked(ev) {
@@ -390,22 +398,18 @@ function onStartDrag(ev) {
     var rect = document.querySelector('#my-canvas').getBoundingClientRect();
     const x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
     const y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
-    // const selectedLine = getCurrLine()
-    // if (gFocusMode === 'line') {
-    //     console.log('expirment:', x + gCtx.measureText(selectedLine.txt).width / 2)
-    //     gCtx.moveTo(x + gCtx.measureText(selectedLine.txt).width / 2, y)
-    // }
     gCtx.moveTo(x, y);
 }
 
 
+//Start the movement;
 function onDragLine(ev) {
     ev.preventDefault();
     if (!gIsDrag) return;
     var rect = document.querySelector('#my-canvas').getBoundingClientRect();
     var x = ev.touches ? ev.touches[0].clientX - rect.left : ev.offsetX;
     var y = ev.touches ? ev.touches[0].clientY - rect.top : ev.offsetY;
-    console.log('X:', x, 'Y:', y);
+    // console.log('X:', x, 'Y:', y);
     if (gFocusMode === 'line') {
         const selectedLine = getCurrLine();
         const xCenterDragLine = x - gCtx.measureText(selectedLine.txt).width / 2;
@@ -416,7 +420,7 @@ function onDragLine(ev) {
         const selectedSticker = getCurrSticker();
         const xCenterDragSticker = x - selectedSticker.stickerWidth / 2;
         const yCenterDragSticker = y - 20;
-        console.log('rendring drag stickers');
+        // console.log('rendring drag stickers');
         dragSticker(xCenterDragSticker, yCenterDragSticker);
     }
     renderCanvas();
@@ -443,6 +447,40 @@ function onResizeCanvas(ev) {
     elCanvas.height = elContainer.offsetHeight;
     renderCanvas();
 }
+
+
+
+
+// The next 2 functions handle IMAGE UPLOADING to img tag from file system: 
+function onImgInput(ev) {
+    loadImageFromInput(ev, renderCanvas)
+}
+function loadImageFromInput(ev, onImageReady) {
+    document.querySelector('.share-container').innerHTML = ''
+    var reader = new FileReader();
+
+    reader.onload = function (event) {
+        var img = new Image();
+        img.onload = onImageReady.bind(null, img)
+        img.src = event.target.result;
+        loadMemeToCanvas(img.src)
+        console.log('img src?:', img.src);
+    }
+    reader.readAsDataURL(ev.target.files[0]);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 // function onSetFontFamily(fontName) {
 //     setFontFamily(fontName)
 //     renderCanvas();

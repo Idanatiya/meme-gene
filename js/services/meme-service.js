@@ -2,6 +2,8 @@
 var gKeywords = { 'cute': 25, 'funny': 30, 'dogs': 25, 'movie': 20 }
 var gImgs;
 var gMeme = {
+    gCurrImg: null,
+    gCurrImg: null,
     selectedImgId: null,
     selectedLineIdx: 0,
     lines: [],
@@ -82,23 +84,12 @@ function deleteSticker() {
 }
 
 
-// function changeColor(color) {
-//     getCurrLine().color = color;
-// }
 
 function changeLineProp(prop, val) {
     getCurrLine()[prop] = val;
 }
 
 
-// function changeOutline(color) {
-//     getCurrLine().outline = color;
-// }
-
-// function setFontFamily(fontName) {
-//     console.log('getting from controller!', fontName)
-//     getCurrLine().font = fontName;
-// }
 
 function manageAlignment(direction) {
     getCurrLine().coords.x = direction;
@@ -116,13 +107,13 @@ function addLine() {
 }
 
 function setLinesInDesktop() {
-    if (gMeme.lines.length === 2) gMeme.lines.push(_createLine(170, 590))
-    else gMeme.lines.push(_createLine(170, 300));
+    if (gMeme.lines.length === 2) gMeme.lines.push(_createLine(170, 300))
+    else gMeme.lines.push(_createLine(170, 590))
 }
 
 function setLinesInMobile() {
-    if (gMeme.lines.length === 2) gMeme.lines.push(_createLine(27, 295));
-    else gMeme.lines.push(_createLine(27, 170));
+    if (gMeme.lines.length === 2) gMeme.lines.push(_createLine(27, 170));
+    else gMeme.lines.push(_createLine(27, 295));
 }
 
 function addSticker(stickerId, stickerWidth, stickerHeight) {
@@ -212,26 +203,33 @@ function _createLine(x, y) {
 function _createImgs() {
     let memeImgs;
     memeImgs = [];
-    memeImgs.push(_createImg(1, 'meme-imgs/1.jpg', ['politc', 'trump']));
-    memeImgs.push(_createImg(2, 'meme-imgs/2.jpg', ['cute', 'dogs']));
-    memeImgs.push(_createImg(3, 'meme-imgs/3.jpg', ['cute', 'dogs']));
-    memeImgs.push(_createImg(4, 'meme-imgs/4.jpg', ['cute', 'cats']));
-    memeImgs.push(_createImg(5, 'meme-imgs/5.jpg', ['cute', 'funny']));
-    memeImgs.push(_createImg(6, 'meme-imgs/6.jpg', ['funny', 'science']));
-    memeImgs.push(_createImg(7, 'meme-imgs/7.jpg', ['cute', 'funny']));
-    memeImgs.push(_createImg(8, 'meme-imgs/8.jpg', ['funny', 'wizard']));
-    memeImgs.push(_createImg(9, 'meme-imgs/9.jpg', ['funny', 'baby']));
-    memeImgs.push(_createImg(10, 'meme-imgs/10.jpg', ['politc', 'funny']));
-    memeImgs.push(_createImg(11, 'meme-imgs/11.jpg', ['funny', 'kiss']));
-    memeImgs.push(_createImg(12, 'meme-imgs/12.jpg', ['funny']));
-    memeImgs.push(_createImg(13, 'meme-imgs/13.jpg', ['funny', 'movie', 'leonardo']));
-    memeImgs.push(_createImg(14, 'meme-imgs/14.jpg', ['sungalss', 'movie']));
-    memeImgs.push(_createImg(15, 'meme-imgs/15.jpg', ['movie', 'ned']));
-    memeImgs.push(_createImg(16, 'meme-imgs/16.jpg', ['movie']));
-    memeImgs.push(_createImg(17, 'meme-imgs/17.jpg', ['politc', 'putin']));
-    memeImgs.push(_createImg(18, 'meme-imgs/18.jpg', ['funny', 'cute']));
-    memeImgs.push(_createImg(19, 'meme-imgs/19.jpg', ['funny', 'cute']));
-    memeImgs.push(_createImg(20, 'meme-imgs/20.jpg', ['funny', 'cute']));
+    memeImgs.push(_createImg(1, 'meme-imgs-aspect/1.jpg', ['politc', 'trump']));
+    memeImgs.push(_createImg(2, 'meme-imgs-aspect/2.jpg', ['cute', 'dogs']));
+    memeImgs.push(_createImg(3, 'meme-imgs-aspect/3.jpg', ['cute', 'dogs']));
+    memeImgs.push(_createImg(4, 'meme-imgs-aspect/4.jpg', ['cute', 'cats']));
+    memeImgs.push(_createImg(5, 'meme-imgs-aspect/5.jpg', ['cute', 'funny']));
+    memeImgs.push(_createImg(6, 'meme-imgs-aspect/6.jpg', ['funny', 'science']));
+    memeImgs.push(_createImg(7, 'meme-imgs-aspect/7.jpg', ['cute', 'funny']));
+    memeImgs.push(_createImg(8, 'meme-imgs-aspect/8.jpg', ['funny', 'wizard']));
+    memeImgs.push(_createImg(9, 'meme-imgs-aspect/9.jpg', ['funny', 'baby']));
+    memeImgs.push(_createImg(10, 'meme-imgs-aspect/10.jpg', ['politc', 'funny']));
+    memeImgs.push(_createImg(11, 'meme-imgs-aspect/11.jpg', ['funny', 'kiss']));
+    memeImgs.push(_createImg(12, 'meme-imgs-aspect/12.jpg', ['funny']));
+    memeImgs.push(_createImg(13, 'meme-imgs-aspect/13.jpg', ['funny', 'movie', 'leonardo']));
+    memeImgs.push(_createImg(14, 'meme-imgs-aspect/14.jpg', ['sungalss', 'movie']));
+    memeImgs.push(_createImg(15, 'meme-imgs-aspect/15.jpg', ['movie', 'ned']));
+    memeImgs.push(_createImg(16, 'meme-imgs-aspect/16.jpg', ['movie']));
+    memeImgs.push(_createImg(17, 'meme-imgs-aspect/17.jpg', ['politc', 'putin']));
+    memeImgs.push(_createImg(18, 'meme-imgs-aspect/18.jpg', ['funny', 'cute']));
+    memeImgs.push(_createImg(19, 'meme-imgs-aspect/19.jpg', ['funny', 'cute']));
+    memeImgs.push(_createImg(20, 'meme-imgs-aspect/20.jpg', ['funny', 'cute']));
+    memeImgs.push(_createImg(21, 'meme-imgs-aspect/21.jpg', ['funny', 'cute']));
+    memeImgs.push(_createImg(22, 'meme-imgs-aspect/22.jpg', ['funny', 'cute']));
+    memeImgs.push(_createImg(23, 'meme-imgs-aspect/23.jpg', ['funny', 'cute']));
+    memeImgs.push(_createImg(24, 'meme-imgs-aspect/24.jpg', ['funny', 'cute']));
+    memeImgs.push(_createImg(25, 'meme-imgs-aspect/25.jpg', ['funny', 'cute']));
+    // memeImgs.push(_createImg(19, 'meme-imgs/19.jpg', ['funny', 'cute']));
+    // memeImgs.push(_createImg(20, 'meme-imgs/20.jpg', ['funny', 'cute']));
     gImgs = memeImgs;
 }
 

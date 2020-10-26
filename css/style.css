@@ -3,12 +3,6 @@
     src: url(../fonts/Rubik-Black.ttf);
 }
 
-@media (max-width: 540px) {
-    .canvas-container {
-        width: 300px;
-        height: 300px;
-    }
-}
 
 
 /*Basic*/
@@ -109,10 +103,6 @@ a {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
-    margin-block-start: 40px;
-    margin-block-end: 40px;
-    margin-inline-start: 20px;
-    margin-inline-end: 20px;
     justify-items: center;
     align-items: center;
     flex: 1;
@@ -129,11 +119,12 @@ a {
     width: 300px;
 }
 
-.card-img {
+/* .card-img {
     object-fit: cover;
     width: 278px;
 }
 
+*/
 
 /*MEME EDITOR*/
 .meme-editor-container {
@@ -295,6 +286,11 @@ canvas {
     font-family: Rubik, sans-serif;
     font-size: 1rem;
     margin: 12px auto;
+    transition: transform .3s ease;
+}
+
+.delete-meme-btn:hover {
+    transform: scale(1.1);
 }
 
 .info-container {
@@ -358,10 +354,19 @@ canvas {
     color: white;
 }
 
+
+.card {
+    height: 100%;
+    width: 100%;
+}
+
 .card-img {
     cursor: pointer;
     transition: .3s ease;
     border-radius: 10px;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 
 }
 
@@ -456,6 +461,10 @@ body.menu-open .screen {
     opacity: 1;
 }
 
+/* .canvas-container {
+    height: 90%;
+    flex-basis: 50%;
+} */
 .screen {
     position: fixed;
     width: 100%;
@@ -622,13 +631,13 @@ body.menu-open .screen {
 
     .stickers-container .prev-arrow {
         position: absolute;
-        right: 17px;
+        right: 26px;
         width: 15px;
     }
 
     .stickers-container .next-arrow {
         position: absolute;
-        left: 17px;
+        left: 26px;
         width: 15px;
     }
 

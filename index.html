@@ -10,9 +10,10 @@
     <title>Meme Generator</title>
 </head>
 
+<!-- onresize="resizeCanvas(event)"" -->
 
-<body onload="onInit()" onresize="resizeCanvas(event)">
-    <datalist id="keywords">
+<body onload="onInit()" onresize="onResizeCanvas()">
+    <datalist id=" keywords">
         <option value="Dogs">
         <option value="Cute">
         <option value="Funny">
@@ -62,7 +63,7 @@
     <div class="meme-editor-container hide">
         <!-- CANVAS -->
         <div class="canvas-container">
-            <canvas id="my-canvas" height="600" width="600" onclick="onCanvasClicked(event)"
+            <canvas id="my-canvas" height="" width="600" onclick="onCanvasClicked(event)"
                 onmousedown="onStartDrag(event)" onmouseup="onStopDrag(event)" onmousemove="onDragLine(event)"
                 ontouchstart="onStartDrag(event)" ontocuhend="onStopDrag(event)" ontouchmove="onDragLine(event)">
             </canvas>
@@ -137,6 +138,7 @@
                 <a href="#" onclick="onSaveMeme(this)">
                     <i class="fas fa-save fa-3x"></i>
                 </a>
+
             </div>
             <div class="meme-save-modal">
                 <span>Meme has been saved!</span>
@@ -159,6 +161,7 @@
     </footer>
 
     <script src="js/services/util-service.js"></script>
+    <script src="js/services/upload-service.js"></script>
     <script src="js/services/storage-service.js"></script>
     <script src="js/services/meme-service.js"></script>
     <script src="js/services/meme-service.js"></script>

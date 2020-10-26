@@ -1,8 +1,5 @@
 'use strict';
 
-// function onInitMemes() {
-//     renderMemes();
-// }
 
 
 function renderMemes() {
@@ -95,15 +92,64 @@ function onDeleteMemes() {
 //     }
 
 
-    // meme.selectedLineIdx = currSelectedIdx;
-    // meme.selectedStickerIdx = currStickerIdx;
-    // setTimeout(() => {
-    //     const data = elCanvas.toDataURL('image/png');
-    //     elLink.href = data;
-    //     meme.selectedLineIdx = currSelectedIdx;
-    //     meme.selectedStickerIdx = currStickerIdx;
-    //     console.log('exetcued');
-    //     //Render the rectangle again
-    //     renderCanvas()
-    // }, 300)
-    // console.log('idx:', getCurrSelectedIdx())
+// meme.selectedLineIdx = currSelectedIdx;
+// meme.selectedStickerIdx = currStickerIdx;
+// setTimeout(() => {
+//     const data = elCanvas.toDataURL('image/png');
+//     elLink.href = data;
+//     meme.selectedLineIdx = currSelectedIdx;
+//     meme.selectedStickerIdx = currStickerIdx;
+//     console.log('exetcued');
+//     //Render the rectangle again
+//     renderCanvas()
+// }, 300)
+// console.log('idx:', getCurrSelectedIdx())
+// function loadMemeToCanvas(imgUrl) {
+//     renderStickers();
+//     const img = new Image();
+//     img.onload = function () {
+//         console.log(`width and height: ${this.width}, ${this.height}`);
+//         const imgWidth = this.width;
+//         const imgHeight = this.height;
+//         const calcFormula = (imgHeight * gCanvas.width) / imgWidth;
+//         gFocusMode = 'line';
+//         gCtx.drawImage(img, 0, 0, elCanvas.width, elCanvas.height);
+//         resizeCanvas();
+//     }
+//     img.src = `${imgUrl}`;
+// }
+
+
+// function loadMemeToCanvas(imgUrl) {
+//     renderStickers();
+
+//     var elContainer = document.querySelector('.canvas-container');
+//     console.log(elContainer);
+//     console.log('mmm', elContainer.offsetWidth, elContainer.offsetHeight);
+//     const img = new Image();
+//     img.src = `${imgUrl}`;
+//     img.onload = function () {
+//         const imgWidth = this.width;
+//         const imgHeight = this.height;
+//         const ratio = imgWidth / imgHeight;
+//         console.log('ratio:', ratio);
+//         if (ratio > 1) {
+//             elCanvas.width = Math.min(elContainer.offsetWidth, imgWidth);
+//             console.log('in ratrio height > 1', elCanvas.height / ratio);
+//             elCanvas.height = elCanvas.height / ratio;
+//             console.log('img is  rohvit!', elCanvas.width, elCanvas.height);
+//         } else {
+//             elCanvas.height = Math.min(elContainer.offsetHeight, imgHeight);
+//             elCanvas.width = elCanvas.height * ratio;
+//         }
+//         console.log(elCanvas.height, elCanvas.width);
+//         // console.log(`width and height: ${this.width}, ${this.height}`);
+
+//         // const calcCanvasHeight = (imgHeight * elCanvas.width) / imgWidth;
+//         // elCanvas.height = calcCanvasHeight;
+//         // console.log('canvas height:', elCanvas.height)
+//         gFocusMode = 'line';
+//         gCtx.drawImage(img, 0, 0, elCanvas.width, elCanvas.height);
+//         renderCanvas();
+//     }
+// }
