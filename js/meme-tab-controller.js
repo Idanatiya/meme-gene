@@ -17,6 +17,8 @@ function renderMemes() {
 
 function onDeleteMemes() {
     deleteMemes();
+    const numSaveMemes = getSavedMemes();
+    if (numSaveMemes === 0) document.querySelector('.num-saved').innerHTML = `(${numSaveMemes})`;
     renderMemes();
 }
 

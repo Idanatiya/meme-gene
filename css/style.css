@@ -371,10 +371,6 @@ canvas {
 
 }
 
-.img-gallery-container {
-    flex: 1;
-}
-
 .card-img:hover {
     transform: rotateZ(3deg) scale(1.1);
 

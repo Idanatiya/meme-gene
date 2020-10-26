@@ -13,7 +13,14 @@ function uploadImg(elForm, ev) {
 
     doUploadImg(elForm, onSuccess);
 }
-
+function getNaphtlieMoney() {
+    //fetch data from some api
+    fetch('some api')
+        //turn data to json
+        .then(res => res.json())
+        //get the data
+        .then(data => console.log('this is suprerior to ajax'))
+}
 function doUploadImg(elForm, onSuccess) {
     var formData = new FormData(elForm);
     fetch('http://ca-upload.com/here/upload.php', {

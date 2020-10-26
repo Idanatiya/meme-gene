@@ -163,7 +163,7 @@ function manageStickerSize(diff) {
 function getImgsForDisplay() {
     if (!gSearchBy) return gImgs;
     var imgs = gImgs.filter(img => {
-        return img.keywords.some(keyword => keyword.includes(gSearchBy))
+        return img.keywords.some(keyword => keyword.toLowerCase().includes(gSearchBy.toLowerCase()))
     })
 
     //add 4 to gKeywords to the specfied key
@@ -174,6 +174,7 @@ function getImgsForDisplay() {
 function getCurrMeme() {
     return gMeme;
 }
+
 
 function getSavedMemes() {
     return gSavedMemes.length;

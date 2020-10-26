@@ -19,6 +19,7 @@ function onInit() {
 }
 
 
+
 function resizeCanvas() {
     if (window.innerWidth < 720) {
         elCanvas.width = 300;
