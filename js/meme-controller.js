@@ -138,8 +138,6 @@ function onSetSearchTerm(searchTerm) {
 
 function onSaveMeme() {
     removeFocusBoxOnSave();
-    const numOfMemes = getSavedMemes();
-    document.querySelector('.num-saved').innerText = `(${numOfMemes})`;
     showAlert();
 }
 
@@ -157,8 +155,12 @@ function removeFocusBoxOnSave() {
         meme.selectedLineIdx = currLineIdx;
         meme.selectedStickerIdx = currStickerIdx;
         renderCanvas()
+        const numOfMemes = getSavedMemes();
+        document.querySelector('.num-saved').innerText = `(${numOfMemes})`;
     }, 100)
     console.log('idx changed to:', meme.selectedLineIdx);
+
+
 }
 
 
