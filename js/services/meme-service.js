@@ -175,6 +175,10 @@ function getCurrMeme() {
     return gMeme;
 }
 
+function getSavedMemes() {
+    return gSavedMemes.length;
+}
+
 function getImgById(imgId) {
     return gImgs.find(img => img.id === imgId);
 }

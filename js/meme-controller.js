@@ -136,6 +136,8 @@ function onSetSearchTerm(searchTerm) {
 
 function onSaveMeme() {
     removeFocusBoxOnSave();
+    const numOfMemes = getSavedMemes();
+    document.querySelector('.num-saved').innerText = `(${numOfMemes})`;
     showAlert();
 }
 
@@ -280,7 +282,7 @@ function renderCanvas() {
     const meme = getCurrMeme();
     const imgSelected = getImgById(meme.selectedImgId);
     const img = new Image();
-    img.src = `${imgSelected.url}`;
+    img.src = `${imgSelected.url} `;
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, elCanvas.width, elCanvas.height)
         drawLines();
@@ -301,7 +303,7 @@ function drawStickers() {
 function drawLines() {
     const meme = getCurrMeme();
     meme.lines.forEach((line, idx) => {
-        // console.log(`painting rect in pos: ${line.coords.x},${line.coords.y}`);
+        // console.log(`painting rect in pos: ${ line.coords.x }, ${ line.coords.y } `);
         drawText(line)
         if (idx === meme.selectedLineIdx && gFocusMode === 'line') drawRect(line.coords.x, line.coords.y)
     })
@@ -309,7 +311,7 @@ function drawLines() {
 
 function drawText(line) {
     gCtx.lineWidth = 2;
-    gCtx.font = `${line.size}px ${line.font}`;
+    gCtx.font = `${line.size} px ${line.font} `;
     gCtx.textAlign = line.align;
     gCtx.fillStyle = line.color;
     gCtx.fillText(line.txt, line.coords.x, line.coords.y)
@@ -350,7 +352,7 @@ function loadMemeToCanvas(imgUrl) {
     img.onload = function () {
         const imgWidth = this.width;
         const imgHeight = this.height;
-        console.log(`width and height: ${this.width}, ${this.height}`);
+        console.log(`width and height: ${this.width}, ${this.height} `);
         const calcCanvasHeight = (imgHeight * elCanvas.width) / imgWidth;
         elCanvas.height = calcCanvasHeight;
         console.log('canvas height:', elCanvas.height)
@@ -358,7 +360,7 @@ function loadMemeToCanvas(imgUrl) {
         resizeCanvas();
         gCtx.drawImage(img, 0, 0, imgWidth, calcCanvasHeight);
     }
-    img.src = `${imgUrl}`;
+    img.src = `${imgUrl} `;
 }
 
 
@@ -499,7 +501,7 @@ function loadImageFromInput(ev, onImageReady) {
 
 
 // function drawRect(x, y) {
-//     console.log(`getting: ${x},${y} `);
+//     console.log(`getting: ${ x }, ${ y } `);
 //     let modeSelectedIdx;
 //     gCtx.beginPath();
 //     const meme = getCurrMeme();
