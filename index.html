@@ -12,7 +12,7 @@
 
 <!-- onresize="resizeCanvas(event)"" -->
 
-<body onload="onInit()" onresize="onResizeCanvas()">
+<body onload="onInit()" onresize="resizeCanvas()">
     <datalist id=" keywords">
         <option value="Dogs">
         <option value="Cute">
@@ -63,7 +63,7 @@
     <div class="meme-editor-container hide">
         <!-- CANVAS -->
         <div class="canvas-container">
-            <canvas id="my-canvas" height="" width="600" onclick="onCanvasClicked(event)"
+            <canvas id="my-canvas" height="600" width="600" onclick="onCanvasClicked(event)"
                 onmousedown="onStartDrag(event)" onmouseup="onStopDrag(event)" onmousemove="onDragLine(event)"
                 ontouchstart="onStartDrag(event)" ontocuhend="onStopDrag(event)" ontouchmove="onDragLine(event)">
             </canvas>
