@@ -313,7 +313,7 @@ function drawLines() {
 
 function drawText(line) {
     gCtx.lineWidth = 2;
-    gCtx.font = `${line.size} px ${line.font} `;
+    gCtx.font = `${line.size}px ${line.font} `;
     gCtx.textAlign = line.align;
     gCtx.fillStyle = line.color;
     gCtx.fillText(line.txt, line.coords.x, line.coords.y)
