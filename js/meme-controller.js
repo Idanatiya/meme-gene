@@ -14,6 +14,8 @@ function onInit() {
     renderKeyWords();
     elCanvas = document.querySelector('#my-canvas');
     gCtx = elCanvas.getContext('2d');
+    const numOfMemes = getSavedMemes();
+    document.querySelector('.num-saved').innerText = `(${numOfMemes})`
 }
 
 
